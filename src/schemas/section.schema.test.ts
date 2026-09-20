@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest"
 
+import { appConfigSchema } from "./config.schema"
 import { carouselSectionSchema, ctaSectionSchema } from "./section.schema"
 
 const carouselWithUrl = (url: string) => ({
@@ -31,4 +32,21 @@ describe("section URL validation", () => {
       expect(ctaSectionSchema.safeParse(ctaWithHref(url)).success).toBe(false)
     },
   )
+})
+
+describe("section ID validation", () => {
+  it("rejects duplicate section IDs", () => {
+    const section = ctaWithHref("https://example.com")
+
+    expect(appConfigSchema.safeParse({ version: 1, sections: [section, section] }).success).toBe(
+      false,
+    )
+  })
+
+  it("rejects duplicate carousel image IDs", () => {
+    const image = { id: "image", url: "https://example.com/image.jpg" }
+    const carousel = { ...carouselWithUrl(image.url), images: [image, image] }
+
+    expect(carouselSectionSchema.safeParse(carousel).success).toBe(false)
+  })
 })

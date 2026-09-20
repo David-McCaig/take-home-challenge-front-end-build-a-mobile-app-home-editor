@@ -12,14 +12,19 @@ export const carouselSectionSchema = z
   .object({
     id: idSchema,
     type: z.literal("carousel"),
-    images: z.array(
-      z
-        .object({
-          id: idSchema,
-          url: httpUrlSchema,
-        })
-        .strict(),
-    ),
+    images: z
+      .array(
+        z
+          .object({
+            id: idSchema,
+            url: httpUrlSchema,
+          })
+          .strict(),
+      )
+      .refine(
+        (images) => new Set(images.map((image) => image.id)).size === images.length,
+        "Image IDs must be unique",
+      ),
     aspectRatio: z.enum(["portrait", "landscape", "square"]),
   })
   .strict()
