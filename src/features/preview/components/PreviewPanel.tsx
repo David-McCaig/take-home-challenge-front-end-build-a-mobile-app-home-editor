@@ -1,4 +1,4 @@
-import { PhonePreview } from "@/features/preview/PhonePreview"
+import { PhonePreview } from "@/features/preview/components/PhonePreview"
 
 export function PreviewPanel() {
   return (

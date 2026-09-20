@@ -1,6 +1,6 @@
-import { CarouselSectionPreview } from "@/features/carousel-section/CarouselSectionPreview"
-import { CTASectionPreview } from "@/features/cta-section/CTASectionPreview"
-import { TextareaSectionPreview } from "@/features/textarea-section/TextareaSectionPreview"
+import { CarouselSectionPreview } from "@/features/preview/section-previews/CarouselSectionPreview"
+import { CTASectionPreview } from "@/features/preview/section-previews/CTASectionPreview"
+import { TextareaSectionPreview } from "@/features/preview/section-previews/TextareaSectionPreview"
 
 export function PhonePreview() {
   return (

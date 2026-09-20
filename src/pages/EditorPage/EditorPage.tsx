@@ -1,7 +1,7 @@
 import { AppHeader } from "@/components/layout/AppHeader"
-import { SelectedWidgetPanel } from "@/features/editor/components/SelectedWidgetPanel"
+import { WidgetEditorPanel } from "@/features/editor/components/WidgetEditorPanel"
 import { WidgetTreePanel } from "@/features/editor/components/WidgetTreePanel"
-import { PreviewPanel } from "@/features/preview/PreviewPanel"
+import { PreviewPanel } from "@/features/preview/components/PreviewPanel"
 
 export function EditorPage() {
   return (
@@ -15,7 +15,7 @@ export function EditorPage() {
           <PreviewPanel />
         </div>
         <div className="xl:w-80 xl:shrink-0">
-          <SelectedWidgetPanel />
+          <WidgetEditorPanel />
         </div>
       </main>
     </div>

@@ -102,20 +102,26 @@ EditorProvider
      │
  ┌───┴───────────────────┐
  │                       │
-EditorPanel           PhonePreview
- │                       ▲
-useEditor()               │ AppConfig prop
- │                        │
-EditorContext ─── config ─┘
+WidgetTreePanel ─┐    PreviewPanel
+                 │       │
+WidgetEditorPanel┤    PhonePreview
+                 │       ▲
+    useEditor()──┘       │ AppConfig prop
+         │               │
+EditorContext ── config ─┘
 ```
 
 ### Context ownership
 
 `EditorContext` remains under `features/editor` because the editor domain owns that mutable state. The number of consumers does not make it a global application concern.
 
+`WidgetTreePanel` manages section organization and selection. `WidgetEditorPanel` renders the editor for the selected section. Type-specific editors live under `features/editor/section-editors` because they participate in the editor surface and consume editor-owned state.
+
 ### Preview ownership
 
 `PhonePreview` and the section preview components may freely use shadcn/ui. They simply should not depend on `EditorContext` when a config/section prop is sufficient.
+
+Preview components live under `features/preview`; type-specific previews are grouped under `section-previews` and receive serializable section data through props.
 
 ```tsx
 <PhonePreview config={state.config} />
@@ -263,39 +269,34 @@ my-app/
 │   │   │   ├── select.tsx
 │   │   │   └── carousel.tsx
 │   │   └── layout/
-│   │       ├── AppHeader.tsx
-│   │       ├── EditorPanel.tsx
-│   │       └── PreviewPanel.tsx
+│   │       └── AppHeader.tsx
 │   │
 │   ├── features/
 │   │   ├── editor/
 │   │   │   ├── components/
-│   │   │   │   ├── SectionList.tsx
 │   │   │   │   ├── AddSection.tsx
-│   │   │   │   └── SectionEditorCard.tsx
+│   │   │   │   ├── SectionList.tsx
+│   │   │   │   ├── SortableSection.tsx
+│   │   │   │   ├── WidgetEditorPanel.tsx
+│   │   │   │   └── WidgetTreePanel.tsx
+│   │   │   ├── section-editors/
+│   │   │   │   ├── CarouselSectionEditor.tsx
+│   │   │   │   ├── CTASectionEditor.tsx
+│   │   │   │   └── TextareaSectionEditor.tsx
 │   │   │   ├── context/EditorContext.tsx
 │   │   │   ├── hooks/useEditor.ts
 │   │   │   ├── reducer/editorReducer.ts
 │   │   │   └── defaults.ts
 │   │   │
-│   │   ├── carousel-section/
-│   │   │   ├── CarouselSectionEditor.tsx
-│   │   │   ├── CarouselSectionPreview.tsx
-│   │   │   └── CarouselSection.test.tsx
-│   │   │
-│   │   ├── textarea-section/
-│   │   │   ├── TextareaSectionEditor.tsx
-│   │   │   ├── TextareaSectionPreview.tsx
-│   │   │   └── TextareaSection.test.tsx
-│   │   │
-│   │   ├── cta-section/
-│   │   │   ├── CTASectionEditor.tsx
-│   │   │   ├── CTASectionPreview.tsx
-│   │   │   └── CTASection.test.tsx
-│   │   │
 │   │   ├── preview/
-│   │   │   ├── PhonePreview.tsx
-│   │   │   └── SectionRenderer.tsx
+│   │   │   ├── components/
+│   │   │   │   ├── PhonePreview.tsx
+│   │   │   │   ├── PreviewPanel.tsx
+│   │   │   │   └── SectionRenderer.tsx
+│   │   │   └── section-previews/
+│   │   │       ├── CarouselSectionPreview.tsx
+│   │   │       ├── CTASectionPreview.tsx
+│   │   │       └── TextareaSectionPreview.tsx
 │   │   │
 │   │   └── config-transfer/
 │   │       ├── importConfig.ts
