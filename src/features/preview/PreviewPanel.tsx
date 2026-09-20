@@ -1,4 +1,4 @@
-import { MobilePreview } from "@/features/preview/MobilePreview"
+import { PhonePreview } from "@/features/preview/PhonePreview"
 
 export function PreviewPanel() {
   return (
@@ -8,7 +8,7 @@ export function PreviewPanel() {
         See your home screen update as you edit.
       </p>
       <div className="flex flex-1 items-start justify-center pt-7">
-        <MobilePreview />
+        <PhonePreview />
       </div>
     </section>
   )

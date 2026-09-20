@@ -102,7 +102,7 @@ EditorProvider
      │
  ┌───┴───────────────────┐
  │                       │
-EditorPanel          MobilePreview
+EditorPanel           PhonePreview
  │                       ▲
 useEditor()               │ AppConfig prop
  │                        │
@@ -115,12 +115,12 @@ EditorContext ─── config ─┘
 
 ### Preview ownership
 
-`MobilePreview` and the section preview components may freely use shadcn/ui. They simply should not depend on `EditorContext` when a config/section prop is sufficient.
+`PhonePreview` and the section preview components may freely use shadcn/ui. They simply should not depend on `EditorContext` when a config/section prop is sufficient.
 
 ```tsx
-<MobilePreview config={state.config} />
+<PhonePreview config={state.config} />
 
-// Inside MobilePreview:
+// Inside PhonePreview:
 sections.map(section => (
   <SectionRenderer key={section.id} section={section} />
 ))
@@ -128,7 +128,7 @@ sections.map(section => (
 
 > **Extensibility seam**
 >
-> If persistence is added later, an API can load/save the same `AppConfig` without changing how `MobilePreview` renders it.
+> If persistence is added later, an API can load/save the same `AppConfig` without changing how `PhonePreview` renders it.
 
 ## 4. Types, schemas, and runtime boundaries
 
@@ -294,7 +294,7 @@ my-app/
 │   │   │   └── CTASection.test.tsx
 │   │   │
 │   │   ├── preview/
-│   │   │   ├── MobilePreview.tsx
+│   │   │   ├── PhonePreview.tsx
 │   │   │   └── SectionRenderer.tsx
 │   │   │
 │   │   └── config-transfer/
