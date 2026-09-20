@@ -1,6 +1,6 @@
 # Mobile App Home Screen Editor
 
-## Build Plan & Technical Architecture - v5
+## Build Plan & Technical Architecture - v6
 
 Aligned to the take-home brief and updated with shadcn/ui, brief-matching component terminology, a polished default configuration, editor-owned state, and a prop-driven mobile preview.
 
@@ -64,7 +64,7 @@ The plan maps directly to the requested three section types and editor behaviors
 | UI primitives | shadcn/ui | Accessible, customizable React primitives that save time in both editor and preview. |
 | State | Context + `useReducer` | Idiomatic shared editor state without an external store. |
 | Validation | Zod | Runtime validation of imported configuration and invalid external data. |
-| DnD | dnd-kit | Robust sortable interaction and stable-ID reordering. |
+| Reordering | Up/down controls | Simple, accessible section reordering without an additional dependency. |
 | Carousel | shadcn Carousel / Embla | shadcn's Carousel uses Embla and fits the brief's plugin allowance. |
 | Testing | Vitest + RTL | Behavior-focused tests with strong Vite integration. |
 | IDs | `crypto.randomUUID()` | Stable section identity without another dependency. |
@@ -272,7 +272,7 @@ my-app/
 │   │   │   ├── components/
 │   │   │   │   ├── SectionList.tsx
 │   │   │   │   ├── AddSection.tsx
-│   │   │   │   └── SortableSection.tsx
+│   │   │   │   └── SectionEditorCard.tsx
 │   │   │   ├── context/EditorContext.tsx
 │   │   │   ├── hooks/useEditor.ts
 │   │   │   ├── reducer/editorReducer.ts
@@ -332,14 +332,17 @@ my-app/
 
 ## 7. Codex AI Infrastructure
 
-Keep the AI harness intentionally small. Repository rules should capture decisions and constraints specific to this take-home; sourced skills should provide reusable React and testing expertise.
+Keep the AI harness intentionally small. `AGENTS.md` should define the repository workflow and architecture constraints, then reference focused documents for React and testing guidance.
 
 ```text
 AGENTS.md
 "What should Codex consistently do in THIS repository?"
 
-.agents/skills/
-"How should Codex approach a particular kind of work well?"
+docs/react.md
+"What React rules should Codex apply?"
+
+docs/testing.md
+"What testing rules should Codex apply?"
 ```
 
 ### Recommended structure
@@ -347,45 +350,31 @@ AGENTS.md
 ```text
 my-app/
 ├── AGENTS.md
-├── .agents/
-│   └── skills/
-│       ├── react/
-│       │   └── SKILL.md
-│       └── testing/
-│           └── SKILL.md
+├── docs/
+│   ├── react.md
+│   └── testing.md
 ├── src/
 └── README.md
 ```
 
 ### Project rules - AGENTS.md
 
-- Use React Context + `useReducer` for shared editor state; do not introduce another state library without a requirement.
 - Keep `AppConfig` serializable and separate from transient `EditorState`.
-- Preview components receive configuration through props rather than depending on `EditorContext`.
-- Keep editor and preview components separate. Treat them as different product surfaces that could use different design systems or rendering technologies in a larger production system.
 - Keep shared TypeScript definitions in `src/types` and runtime schemas in `src/schemas`.
 - Use brief terminology consistently: `CarouselSection`, `TextareaSection`, and `CTASection`.
-- Use shadcn/ui primitives where appropriate instead of recreating generic primitives.
-- Use stable IDs for reorderable sections; never use array indexes as section identity.
 - Do not add a backend, React Query, routing, or speculative abstractions unless requirements justify them.
+- Reference `docs/react.md` for React implementation and review.
+- Reference `docs/testing.md` for test implementation and review.
 
-### Skills
+### React and testing rules
 
-Source focused skills for general React and testing practices rather than copying a large generic rule set into `AGENTS.md`. Skills can cover state ownership, effects, composition, controlled inputs, accessibility, list keys, sensible memoization, React Testing Library queries, `userEvent`, and behavior-focused tests.
+Keep focused guidance in `docs/react.md` and `docs/testing.md` rather than creating project-specific skills. Cover state ownership, effects, composition, controlled inputs, accessibility, list keys, sensible memoization, React Testing Library queries, `userEvent`, and behavior-focused tests.
 
-```text
-Project rule:
-- Never use array indexes as keys for sections because
-  sections are reorderable.
-
-General React skill:
-- Prefer stable identifiers for list keys when items can
-  be inserted, removed, or reordered.
-```
+For example, the stable-key rule belongs in `docs/react.md`, while behavior-focused query and interaction rules belong in `docs/testing.md`.
 
 > **Rule of thumb**
 >
-> Rules describe the architecture and constraints chosen for this repository. Skills provide reusable expertise Codex can apply while working within those constraints.
+> `AGENTS.md` defines the repository workflow and architecture constraints. `docs/react.md` and `docs/testing.md` hold supporting guidance without introducing a skill framework.
 
 ### README / AI usage note
 
@@ -395,24 +384,26 @@ Record meaningful examples of accepted, rejected, or corrected suggestions durin
 
 > **Scope**
 >
-> Start with `AGENTS.md` plus a React skill and a testing skill. Avoid turning the AI infrastructure into a separate project; its purpose is to improve consistency and demonstrate intentional AI-assisted engineering.
+> Start with `AGENTS.md`, `docs/react.md`, and `docs/testing.md`. Avoid turning the AI infrastructure into a separate project; its purpose is to improve consistency and demonstrate intentional AI-assisted engineering.
 
 # Part II - Implementation Plan
 
 ## 8. Full implementation plan
 
-### Milestone 1 - Foundation & Architecture
+### Milestone 1 - Foundation, Architecture & AI Harness
 
 - Create Vite + React + TypeScript app.
 - Install/configure Tailwind and shadcn/ui.
 - Configure Vitest + React Testing Library.
-- Install Zod and dnd-kit.
+- Install Zod.
 - Add shadcn Carousel (Embla-backed) and required UI primitives.
 - Implement `section.types.ts` using `CarouselSection`, `TextareaSection`, and `CTASection` terminology.
 - Implement `AppConfig`, `EditorState`, and `EditorAction` types.
 - Implement section/config Zod schemas.
 - Implement `crypto.randomUUID()` helper and section factories.
 - Implement `editorReducer`, `EditorContext`, `EditorProvider`, and `useEditor()`.
+- Add the lightweight AI harness: repository-specific rules in `AGENTS.md` plus focused guidance in `docs/react.md` and `docs/testing.md`.
+- Keep the harness scoped to reusable guidance; do not add automation or speculative AI infrastructure.
 
 ### Milestone 2 - App Shell + Default Experience
 
@@ -435,11 +426,12 @@ Record meaningful examples of accepted, rejected, or corrected suggestions durin
 
 ### Milestone 4 - Reordering
 
-- Configure dnd-kit sortable list and drag handles.
+- Add up/down controls to each section editor card.
 - Reorder the canonical sections array.
 - Keep editor and preview order synchronized.
 - Use stable IDs, never array indexes as identity.
-- Support keyboard interaction where practical.
+- Disable the up control on the first section and the down control on the last section.
+- Provide accessible labels and native keyboard interaction.
 - Test resulting order.
 
 ### Milestone 5 - Carousel Section
@@ -496,7 +488,7 @@ Record meaningful examples of accepted, rejected, or corrected suggestions durin
 - README local setup, dev, test, and build instructions.
 - Explain Context + reducer and prop-driven preview.
 - Explain `AppConfig` vs `EditorState` and `types/` vs `schemas/`.
-- Document shadcn/dnd-kit/Embla choices and tradeoffs.
+- Document shadcn/Embla choices and the dependency-free reordering tradeoff.
 - Document assumptions and future API/routing seams.
 - Document AI tools, uses, accepted/rejected/corrected suggestions.
 - Final public repo and clean-clone verification.
@@ -592,50 +584,9 @@ interface AppConfig {
 
 Do not pre-build these extensions. The evaluation asks for clean seams that are straightforward to extend, not unused infrastructure.
 
-# Part IV - Project Management & Submission
+# Part IV - Submission
 
-## 11. ClickUp task template
-
-```text
-TASK: Textarea Section
-
-Goal
-Allow users to configure and preview the brief's
-Textarea Section.
-
-Acceptance Criteria
-- Edit title and description
-- Edit title and description hex colors
-- Preview updates immediately
-- State remains in central AppConfig
-
-Edge Cases
-- Empty title / description
-- Long content
-- Invalid hex color
-
-Accessibility
-- Inputs have labels
-- Errors are associated with fields
-- Keyboard interaction works
-
-Tests
-- Title update changes preview
-- Description update changes preview
-- Color update changes preview
-- Invalid color is handled
-
-Notes / Decisions
-- Record meaningful tradeoffs for README
-```
-
-### Suggested status flow
-
-```text
-Backlog → Ready → In Progress → Review / Test → Done
-```
-
-## 12. Final submission checklist
+## 11. Final submission checklist
 
 - App opens with a polished default Carousel + Textarea + CTA configuration.
 - Carousel scrolls horizontally and supports add/edit/remove image URLs.
