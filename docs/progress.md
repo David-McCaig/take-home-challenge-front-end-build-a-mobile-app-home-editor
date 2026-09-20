@@ -5,7 +5,7 @@ Source plan: [plan.md](./plan.md)
 ## Current status
 
 - Current milestone: Milestone 1 - Foundation, Architecture & AI Harness
-- Status: Not started
+- Status: In progress
 - Last updated: 2026-09-20
 
 ## Milestones
@@ -23,7 +23,9 @@ Source plan: [plan.md](./plan.md)
 
 ## Completed work
 
-None yet.
+- Implemented the shared `CarouselSection`, `TextareaSection`, `CTASection`, `Section`, and `CarouselImage` types.
+- Implemented serializable `AppConfig` and transient `EditorState` / `EditorAction` types.
+- Implemented strict section and app-config Zod schemas, including URL, supported-version, section-discriminator, and three- or six-digit hex-color validation.
 
 ## Decisions and deviations
 
@@ -31,6 +33,7 @@ None yet.
 - ClickUp-specific project management removed.
 - Lightweight AI harness work moved into Milestone 1, using `AGENTS.md`, `docs/react.md`, and `docs/testing.md` instead of project-specific skills.
 - Styling guidance remains with the React rules until it is substantial enough to justify a separate document.
+- Carousel images use stable IDs plus URLs; accessibility text can be derived from editor context unless the product later requires authored alt text.
 
 ## Blockers
 

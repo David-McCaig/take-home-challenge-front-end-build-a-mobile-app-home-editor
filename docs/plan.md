@@ -172,7 +172,7 @@ export interface CTASection extends BaseSection {
   label: string;
   href: string;
   buttonColor: string;
-  labelColor: string;
+  textColor: string;
 }
 
 export type Section =
