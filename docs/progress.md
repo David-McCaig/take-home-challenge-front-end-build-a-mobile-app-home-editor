@@ -26,6 +26,7 @@ Source plan: [plan.md](./plan.md)
 - Implemented the shared `CarouselSection`, `TextareaSection`, `CTASection`, `Section`, and `CarouselImage` types.
 - Implemented serializable `AppConfig` and transient `EditorState` / `EditorAction` types.
 - Implemented strict section and app-config Zod schemas, including URL, supported-version, section-discriminator, and three- or six-digit hex-color validation.
+- Restricted carousel image and CTA links to HTTP(S), with focused Vitest coverage for accepted and unsafe protocols.
 
 ## Decisions and deviations
 

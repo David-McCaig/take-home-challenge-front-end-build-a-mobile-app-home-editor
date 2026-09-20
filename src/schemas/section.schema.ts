@@ -6,6 +6,7 @@ const idSchema = z.string().min(1)
 const colorSchema = z
   .string()
   .regex(/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i, "Must be a three- or six-digit hex color")
+const httpUrlSchema = z.url({ protocol: /^https?$/ })
 
 export const carouselSectionSchema = z
   .object({
@@ -15,7 +16,7 @@ export const carouselSectionSchema = z
       z
         .object({
           id: idSchema,
-          url: z.string().url(),
+          url: httpUrlSchema,
         })
         .strict(),
     ),
@@ -39,7 +40,7 @@ export const ctaSectionSchema = z
     id: idSchema,
     type: z.literal("cta"),
     label: z.string(),
-    href: z.string().url(),
+    href: httpUrlSchema,
     buttonColor: colorSchema,
     textColor: colorSchema,
   })
