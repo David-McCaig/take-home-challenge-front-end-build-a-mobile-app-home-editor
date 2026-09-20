@@ -28,6 +28,8 @@ Source plan: [plan.md](./plan.md)
 - Implemented strict section and app-config Zod schemas, including URL, supported-version, section-discriminator, and three- or six-digit hex-color validation.
 - Restricted carousel image and CTA links to HTTP(S), with focused Vitest coverage for accepted and unsafe protocols.
 - Reject imported configurations with duplicate section IDs or duplicate image IDs within a carousel.
+- Added a native `crypto.randomUUID()` ID helper without introducing another dependency.
+- Implemented the editor reducer, context provider, and guarded `useEditor()` hook with reducer coverage for add, update, remove, reorder, and config replacement.
 
 ## Decisions and deviations
 
