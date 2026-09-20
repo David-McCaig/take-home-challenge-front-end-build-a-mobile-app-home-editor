@@ -4,7 +4,7 @@ Source plan: [plan.md](./plan.md)
 
 ## Current status
 
-- Current milestone: Milestone 1 - Foundation, Architecture & AI Harness
+- Current milestone: Milestone 2 - App Shell + Default Experience
 - Status: In progress
 - Last updated: 2026-09-20
 
@@ -30,6 +30,10 @@ Source plan: [plan.md](./plan.md)
 - Reject imported configurations with duplicate section IDs or duplicate image IDs within a carousel.
 - Added a native `crypto.randomUUID()` ID helper without introducing another dependency.
 - Implemented the editor reducer, context provider, and guarded `useEditor()` hook with reducer coverage for add, update, remove, reorder, and config replacement.
+- Built the responsive application header shell with static Import and Export actions.
+- Built the responsive Widget Tree, Preview, phone frame, and Selected Widget shells from the provided reference design.
+- Seeded the editor provider with a schema-valid default config containing one Carousel, Textarea, and CTA section with realistic content and coherent colors.
+- Confirmed the first-render shell presents all three supported section types in the editor and mobile preview.
 
 ## Decisions and deviations
 
@@ -38,6 +42,11 @@ Source plan: [plan.md](./plan.md)
 - Lightweight AI harness work moved into Milestone 1, using `AGENTS.md`, `docs/react.md`, and `docs/testing.md` instead of project-specific skills.
 - Styling guidance remains with the React rules until it is substantial enough to justify a separate document.
 - Carousel images use stable IDs plus URLs; accessibility text can be derived from editor context unless the product later requires authored alt text.
+- Import and Export are intentionally presentation-only until Milestone 8 wires configuration transfer behavior.
+- Shell controls are intentionally static; state-backed selection, section editing, preview rendering, and actions remain in their planned milestones.
+- Static editor and preview shells live with their Carousel, Textarea, and CTA section features; container panels only compose them.
+- Workspace panels use a three-column desktop layout and stack vertically on tablet and mobile.
+- Tablet and mobile panels size to their content, with tighter mobile spacing and a stable single-row header.
 
 ## Blockers
 
