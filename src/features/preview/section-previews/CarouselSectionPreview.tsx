@@ -1,11 +1,18 @@
 import { ChevronRight } from "lucide-react"
+import type { CarouselSection } from "@/types/section.types"
 
-export function CarouselSectionPreview() {
+export function CarouselSectionPreview({ section }: { section: CarouselSection }) {
+  const firstImage = section.images[0]
+
+  if (!firstImage) {
+    return <p className="rounded-2xl bg-muted p-6 text-center text-xs text-muted-foreground">No images</p>
+  }
+
   return (
     <div className="relative overflow-hidden rounded-2xl">
       <img
-        src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&q=80"
-        alt="Woman wearing a summer outfit"
+        src={firstImage.url}
+        alt="Carousel item 1"
         className="h-[10.25rem] w-full object-cover"
       />
       <button
@@ -16,7 +23,7 @@ export function CarouselSectionPreview() {
         <ChevronRight className="size-5" aria-hidden="true" />
       </button>
       <span className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-background/90 px-2 py-1 text-[0.65rem]">
-        1 / 3
+        1 / {section.images.length}
       </span>
     </div>
   )

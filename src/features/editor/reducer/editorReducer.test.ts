@@ -31,6 +31,7 @@ describe("editorReducer", () => {
 
     expect(updated.config.sections.map(({ id }) => id)).toEqual(["first", "second", "third"])
     expect(updated.config.sections[1]).toMatchObject({ id: "second", label: "Updated" })
+    expect(added.selectedSectionId).toBe("third")
   })
 
   it("removes a section and clears its selection", () => {

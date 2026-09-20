@@ -12,7 +12,7 @@ interface EditorProviderProps {
 export function EditorProvider({ children, initialConfig }: EditorProviderProps) {
   const [state, dispatch] = useReducer(editorReducer, {
     config: initialConfig,
-    selectedSectionId: null,
+    selectedSectionId: initialConfig.sections[0]?.id ?? null,
   })
 
   return <EditorContext value={{ state, dispatch }}>{children}</EditorContext>

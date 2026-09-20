@@ -4,15 +4,15 @@ Source plan: [plan.md](./plan.md)
 
 ## Current status
 
-- Current milestone: Milestone 2 - App Shell + Default Experience
-- Status: In progress
+- Current milestone: Milestone 3 - Section Management
+- Status: Complete
 - Last updated: 2026-09-20
 
 ## Milestones
 
 - [ ] Milestone 1 - Foundation, Architecture & AI Harness
-- [ ] Milestone 2 - App Shell + Default Experience
-- [ ] Milestone 3 - Section Management
+- [x] Milestone 2 - App Shell + Default Experience
+- [x] Milestone 3 - Section Management
 - [ ] Milestone 4 - Reordering
 - [ ] Milestone 5 - Carousel Section
 - [ ] Milestone 6 - Textarea Section
@@ -34,6 +34,11 @@ Source plan: [plan.md](./plan.md)
 - Built the responsive Widget Tree, Preview, phone frame, and Widget Editor shells from the provided reference design.
 - Seeded the editor provider with a schema-valid default config containing one Carousel, Textarea, and CTA section with realistic content and coherent colors.
 - Confirmed the first-render shell presents all three supported section types in the editor and mobile preview.
+- Wired the widget tree and phone preview to render the canonical ordered `config.sections` array.
+- Added Carousel, Textarea, and CTA creation with useful defaults, automatic selection, multiple-instance support, stable IDs, and safe deletion.
+- Added selected-card, widget-editor prompt, and empty editor/preview states.
+- Made each widget card fully selectable and added placeholder up/down controls for Milestone 4.
+- Added reducer coverage for automatic selection and ID preservation.
 
 ## Decisions and deviations
 
@@ -48,6 +53,8 @@ Source plan: [plan.md](./plan.md)
 - Workspace panels use a three-column desktop layout and stack vertically on tablet and mobile.
 - Tablet and mobile panels size to their content, with tighter mobile spacing and a stable single-row header.
 - Editor and preview files are grouped by product surface, with section editors and section previews owned by their respective surface.
+- Reordering controls remain deferred to Milestone 4; section-specific editing behavior remains deferred to Milestones 5–7.
+- Reducer tests cover ID preservation; factory ID generation is not duplicated in reducer coverage.
 
 ## Blockers
 

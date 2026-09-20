@@ -9,6 +9,7 @@ export function editorReducer(state: EditorState, action: EditorAction): EditorS
           ...state.config,
           sections: [...state.config.sections, action.section],
         },
+        selectedSectionId: action.section.id,
       }
 
     case "update-section": {
