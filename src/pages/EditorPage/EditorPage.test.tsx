@@ -139,38 +139,37 @@ describe("textarea section", () => {
 })
 
 describe("CTA section", () => {
-  it("updates the live preview while preserving the last valid link and colors", async () => {
+  it("updates fields while keeping the preview non-navigating", async () => {
     const user = userEvent.setup()
 
     render(
-      <EditorProvider initialConfig={{ version: 1, sections: [createCTA("cta", "Shop Now")] }}>
+      <EditorProvider
+        initialConfig={{
+          version: 1,
+          sections: [createCTA("cta", "Shop Now"), createCTA("other", "Other")],
+        }}
+      >
         <EditorPage />
       </EditorProvider>,
     )
 
     const label = screen.getByLabelText("Label")
     const link = screen.getByLabelText("Link")
-    const buttonColor = screen.getByLabelText("Button color")
-    const labelColor = screen.getByLabelText("Label color")
-
     await user.clear(label)
     await user.type(label, "Browse collection")
     await user.clear(link)
     await user.type(link, "javascript:alert(1)")
-
-    expect(screen.getByText("Enter a valid HTTP or HTTPS URL.")).toBeInTheDocument()
-
-    await user.clear(link)
-    await user.type(link, "https://example.com/new")
-    await user.clear(buttonColor)
-    await user.type(buttonColor, "#123456")
-    await user.clear(labelColor)
-    await user.type(labelColor, "#abcdef")
+    await user.click(screen.getByRole("button", { name: "Select CTA section 2" }))
+    await user.click(screen.getByRole("button", { name: "Select CTA section 1" }))
+    await user.clear(screen.getByLabelText("Button color"))
+    await user.type(screen.getByLabelText("Button color"), "#123456")
+    await user.clear(screen.getByLabelText("Label color"))
+    await user.type(screen.getByLabelText("Label color"), "#abcdef")
 
     const preview = screen.getByRole("heading", { name: "Preview" }).closest("section")!
     const previewButton = within(preview).getByRole("button", { name: "Browse collection" })
 
-    expect(link).toHaveValue("https://example.com/new")
+    expect(screen.getByLabelText("Link")).toHaveValue("javascript:alert(1)")
     expect(previewButton).toHaveStyle({ backgroundColor: "#123456", color: "#abcdef" })
     await user.click(previewButton)
     expect(window.location.href).toBe("http://localhost:3000/")

@@ -54,10 +54,10 @@ Source plan: [plan.md](./plan.md)
 - Preserved multiline descriptions and made long Textarea content wrap safely in the phone preview.
 - Added integration coverage for live Textarea text and color updates.
 - Exercised visible hex fields with realistic per-keystroke interactions in integration coverage.
-- Wired controlled CTA label, HTTP(S) link, and independent color inputs through the editor reducer.
-- Reused the shared hex color field and canonical HTTP(S) schema so invalid drafts never enter serialized editor state.
+- Wired controlled CTA label, link, and independent color inputs through the editor reducer.
+- Reused the shared hex color field while preserving unrestricted CTA link drafts in serialized editor state.
 - Rendered the CTA with the shadcn Button primitive as a non-navigating preview control.
-- Added integration coverage for CTA live-preview updates, invalid-link feedback, colors, and safe preview interaction.
+- Added integration coverage for CTA live-preview updates, link persistence, colors, and safe preview interaction.
 
 ## Decisions and deviations
 
@@ -75,7 +75,7 @@ Source plan: [plan.md](./plan.md)
 - Carousel editing behavior remains deferred to Milestone 5.
 - Textarea color fields accept three- or six-digit hex values without committing invalid drafts; imported colors remain protected by the existing Zod schema.
 - Reducer tests cover ID preservation; factory ID generation is not duplicated in reducer coverage.
-- CTA links commit only after passing the same HTTP(S) validation used at the import boundary; invalid drafts remain visible with inline feedback.
+- CTA link fields and schemas preserve in-progress text; the preview stays a non-navigating button, so link text cannot execute.
 
 ## Blockers
 

@@ -1,22 +1,12 @@
-import { useState } from "react"
-
 import { Input } from "@/components/ui/input"
 import { HexColorField } from "@/features/editor/components/HexColorField"
 import { useEditor } from "@/features/editor/hooks/useEditor"
-import { httpUrlSchema } from "@/schemas/section.schema"
 import type { CTASection } from "@/types/section.types"
 
 export function CTASectionEditor({ section }: { section: CTASection }) {
   const { dispatch } = useEditor()
-  const [hrefDraft, setHrefDraft] = useState(section.href)
-  const isHrefValid = httpUrlSchema.safeParse(hrefDraft).success
   const updateSection = (updates: Partial<CTASection>) =>
     dispatch({ type: "update-section", section: { ...section, ...updates } })
-
-  function updateHref(href: string) {
-    setHrefDraft(href)
-    if (httpUrlSchema.safeParse(href).success) updateSection({ href })
-  }
 
   return (
     <div className="mt-4 space-y-4">
@@ -32,18 +22,11 @@ export function CTASectionEditor({ section }: { section: CTASection }) {
         Link
         <Input
           type="url"
-          value={hrefDraft}
-          onChange={(event) => updateHref(event.target.value)}
-          aria-invalid={!isHrefValid}
-          aria-describedby={!isHrefValid ? "cta-link-error" : undefined}
+          value={section.href}
+          onChange={(event) => updateSection({ href: event.target.value })}
           className="mt-2 text-foreground"
         />
       </label>
-      {!isHrefValid && (
-        <p id="cta-link-error" className="-mt-3 text-xs text-destructive">
-          Enter a valid HTTP or HTTPS URL.
-        </p>
-      )}
       <div className="grid grid-cols-2 gap-3">
         <HexColorField
           label="Button color"
