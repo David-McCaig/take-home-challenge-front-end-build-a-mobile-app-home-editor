@@ -68,6 +68,7 @@ export function AppHeader() {
           type="button"
           variant="ghost"
           size="lg"
+          className="cursor-pointer"
           aria-label="Import configuration"
           onClick={() => inputRef.current?.click()}
         >
@@ -77,6 +78,7 @@ export function AppHeader() {
         <Button
           type="button"
           size="lg"
+          className="cursor-pointer"
           aria-label="Export configuration"
           onClick={() => exportConfig(state.config)}
         >
