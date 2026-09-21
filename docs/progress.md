@@ -10,7 +10,7 @@ Source plan: [plan.md](./plan.md)
 
 ## Milestones
 
-- [ ] Milestone 1 - Foundation, Architecture & AI Harness
+- [x] Milestone 1 - Foundation, Architecture & AI Harness
 - [x] Milestone 2 - App Shell + Default Experience
 - [x] Milestone 3 - Section Management
 - [ ] Milestone 4 - Reordering
