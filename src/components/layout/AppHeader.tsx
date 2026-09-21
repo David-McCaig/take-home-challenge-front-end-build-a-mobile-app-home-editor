@@ -11,8 +11,8 @@ export function AppHeader() {
   const { state, dispatch } = useEditor()
   const inputRef = useRef<HTMLInputElement>(null)
 
-  function showImportError(message: string) {
-    toast.error(message, { closeButton: true, duration: Infinity })
+  function showImportError(description: string) {
+    toast.error("Import failed", { description, closeButton: true, duration: Infinity })
   }
 
   async function handleImport(event: ChangeEvent<HTMLInputElement>) {
@@ -26,21 +26,24 @@ export function AppHeader() {
     try {
       result = importConfig(await file.text())
     } catch {
-      showImportError("Import failed: unable to read file.")
+      showImportError("The selected file could not be read. Your configuration was not changed.")
       return
     }
 
     if (!result.success) {
       showImportError(
         result.reason === "malformed"
-          ? "Import failed: malformed JSON."
-          : "Import failed: invalid configuration.",
+          ? "The selected file contains malformed JSON. Your configuration was not changed."
+          : "The selected file is not a valid configuration. Your configuration was not changed.",
       )
       return
     }
 
     dispatch({ type: "replace-config", config: result.config })
-    toast.success("Configuration imported.", { duration: 4000 })
+    toast.success("Configuration imported", {
+      description: "Your workspace is ready to edit.",
+      duration: 4000,
+    })
   }
 
   return (
@@ -77,7 +80,10 @@ export function AppHeader() {
           aria-label="Export configuration"
           onClick={() => {
             exportConfig(state.config)
-            toast.success("Configuration exported.", { duration: 4000 })
+            toast.success("Configuration exported", {
+              description: "Downloaded as mobile-app-config.json.",
+              duration: 4000,
+            })
           }}
         >
           <Download aria-hidden="true" />

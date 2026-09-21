@@ -7,7 +7,7 @@ function App() {
   return (
     <EditorProvider initialConfig={defaultConfig}>
       <EditorPage />
-      <Toaster richColors position="top-center" />
+      <Toaster position="top-center" />
     </EditorProvider>
   )
 }

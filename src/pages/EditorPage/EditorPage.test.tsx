@@ -275,7 +275,7 @@ describe("configuration transfer", () => {
     render(
       <EditorProvider initialConfig={{ version: 1, sections: [createCTA("old", "Old")] }}>
         <EditorPage />
-        <Toaster richColors />
+        <Toaster />
       </EditorProvider>,
     )
 
@@ -289,12 +289,13 @@ describe("configuration transfer", () => {
       ),
     )
 
-    expect(await screen.findByText("Configuration imported.")).toBeInTheDocument()
+    expect(await screen.findByText("Configuration imported")).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Imported" })).toBeInTheDocument()
 
     await user.upload(input, new File(["{"], "broken.json", { type: "application/json" }))
 
-    expect(await screen.findByText("Import failed: malformed JSON.")).toBeInTheDocument()
+    expect(await screen.findByText("Import failed")).toBeInTheDocument()
+    expect(screen.getByText(/malformed JSON.*not changed/)).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Imported" })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Close toast" })).toBeInTheDocument()
   })
