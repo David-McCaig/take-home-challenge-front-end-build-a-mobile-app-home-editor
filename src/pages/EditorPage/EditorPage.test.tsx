@@ -1,13 +1,13 @@
 // @vitest-environment jsdom
 
 import "@testing-library/jest-dom/vitest"
-import { cleanup, render, screen, within } from "@testing-library/react"
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { afterEach, describe, expect, it } from "vitest"
 
 import { EditorProvider } from "@/features/editor/context/EditorContext"
 import { EditorPage } from "@/pages/EditorPage/EditorPage"
-import type { CTASection } from "@/types/section.types"
+import type { CTASection, TextareaSection } from "@/types/section.types"
 
 const createCTA = (id: string, label: string): CTASection => ({
   id,
@@ -17,6 +17,15 @@ const createCTA = (id: string, label: string): CTASection => ({
   buttonColor: "#000000",
   textColor: "#ffffff",
 })
+
+const textareaSection: TextareaSection = {
+  id: "text",
+  type: "textarea",
+  title: "Original title",
+  description: "Original description",
+  titleColor: "#111111",
+  descriptionColor: "#737373",
+}
 
 afterEach(cleanup)
 
@@ -80,5 +89,48 @@ describe("section management", () => {
       "Second",
       "First",
     ])
+  })
+})
+
+describe("textarea section", () => {
+  it("updates text and colors in the live preview", async () => {
+    const user = userEvent.setup()
+
+    render(
+      <EditorProvider initialConfig={{ version: 1, sections: [textareaSection] }}>
+        <EditorPage />
+      </EditorProvider>,
+    )
+
+    const title = screen.getByLabelText("Title")
+    const description = screen.getByLabelText("Description")
+    const titleColor = screen.getByLabelText("Title color")
+    const descriptionColor = screen.getByLabelText("Description color")
+
+    expect(titleColor).toHaveValue("#111111")
+    expect(descriptionColor).toHaveValue("#737373")
+
+    fireEvent.change(screen.getByLabelText("Choose title color"), {
+      target: { value: "#654321" },
+    })
+    expect(titleColor).toHaveValue("#654321")
+
+    await user.clear(title)
+    await user.type(title, "Updated title")
+    await user.clear(description)
+    await user.type(description, "First line\nSecond line")
+    fireEvent.change(titleColor, { target: { value: "invalid" } })
+
+    expect(screen.getByText("Enter a 3- or 6-digit hex color.")).toBeInTheDocument()
+
+    fireEvent.change(titleColor, { target: { value: "#123456" } })
+    fireEvent.change(descriptionColor, { target: { value: "#abcdef" } })
+
+    const preview = screen.getByRole("heading", { name: "Preview" }).closest("section")!
+    const previewTitle = within(preview).getByRole("heading", { name: "Updated title" })
+    const previewDescription = within(preview).getByText(/First line\s+Second line/)
+
+    expect(previewTitle).toHaveStyle({ color: "#123456" })
+    expect(previewDescription).toHaveStyle({ color: "#abcdef" })
   })
 })

@@ -15,7 +15,7 @@ Source plan: [plan.md](./plan.md)
 - [x] Milestone 3 - Section Management
 - [x] Milestone 4 - Reordering
 - [ ] Milestone 5 - Carousel Section
-- [ ] Milestone 6 - Textarea Section
+- [x] Milestone 6 - Textarea Section
 - [ ] Milestone 7 - CTA Section
 - [ ] Milestone 8 - Import / Export
 - [ ] Milestone 9 - Quality Pass
@@ -46,6 +46,11 @@ Source plan: [plan.md](./plan.md)
 - Added the minimal pull request format and referenced it from `AGENTS.md`.
 - Wired accessible native up/down controls to reorder the canonical sections array, with pointer cues on widget-tree actions and boundary controls disabled.
 - Added integration coverage proving the widget tree and phone preview stay synchronized after reordering.
+- Wired controlled title, description, and independent color inputs through the editor reducer to the live Textarea preview.
+- Added clickable native-picker swatches beside visible hex color fields and kept invalid color drafts out of serialized editor state.
+- Extracted the reusable `HexColorField` into shared editor components for Textarea and future CTA use.
+- Preserved multiline descriptions and made long Textarea content wrap safely in the phone preview.
+- Added integration coverage for live Textarea text and color updates.
 
 ## Decisions and deviations
 
@@ -60,7 +65,8 @@ Source plan: [plan.md](./plan.md)
 - Workspace panels use a three-column desktop layout and stack vertically on tablet and mobile.
 - Tablet and mobile panels size to their content, with tighter mobile spacing and a stable single-row header.
 - Editor and preview files are grouped by product surface, with section editors and section previews owned by their respective surface.
-- Section-specific editing behavior remains deferred to Milestones 5–7.
+- Carousel and CTA editing behavior remains deferred to Milestones 5 and 7.
+- Textarea color fields accept three- or six-digit hex values without committing invalid drafts; imported colors remain protected by the existing Zod schema.
 - Reducer tests cover ID preservation; factory ID generation is not duplicated in reducer coverage.
 
 ## Blockers
