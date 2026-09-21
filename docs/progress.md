@@ -14,7 +14,7 @@ Source plan: [plan.md](./plan.md)
 - [x] Milestone 2 - App Shell + Default Experience
 - [x] Milestone 3 - Section Management
 - [x] Milestone 4 - Reordering
-- [ ] Milestone 5 - Carousel Section
+- [x] Milestone 5 - Carousel Section
 - [x] Milestone 6 - Textarea Section
 - [x] Milestone 7 - CTA Section
 - [x] Milestone 8 - Import / Export
@@ -22,6 +22,11 @@ Source plan: [plan.md](./plan.md)
 - [ ] Milestone 10 - Documentation & Submission
 
 ## Completed work
+
+- Implemented Carousel Section image URL add/edit/remove controls and aspect-ratio selection.
+- Kept incomplete carousel URL drafts local and committed only schema-valid HTTP(S) URLs.
+- Implemented the Embla-backed carousel preview with portrait, landscape, and square layouts plus empty and broken-image fallbacks.
+- Added an editor-to-preview integration test covering URL updates, image list changes, aspect ratios, and the zero-image state.
 
 - Implemented the shared `CarouselSection`, `TextareaSection`, `CTASection`, `Section`, and `CarouselImage` types.
 - Implemented serializable `AppConfig` and transient `EditorState` / `EditorAction` types.
@@ -63,6 +68,8 @@ Source plan: [plan.md](./plan.md)
 - Validated imports through the existing strict `appConfigSchema`, with distinct malformed-JSON and invalid-configuration feedback.
 - Preserved the active configuration on failed imports and replaced editor state only after successful validation.
 - Added focused round-trip, unsupported-version, unknown-section, successful-import, and failed-import regression coverage.
+- Rendered carousel failure text only after an image load error so successful images have no hidden duplicate announcement.
+- Prevented multiple unfinished carousel rows; Add image now focuses and validates the existing draft instead.
 
 ## Decisions and deviations
 
@@ -77,12 +84,12 @@ Source plan: [plan.md](./plan.md)
 - Workspace panels use a three-column desktop layout and stack vertically on tablet and mobile.
 - Tablet and mobile panels size to their content, with tighter mobile spacing and a stable single-row header.
 - Editor and preview files are grouped by product surface, with section editors and section previews owned by their respective surface.
-- Carousel editing behavior remains deferred to Milestone 5.
 - Textarea color fields accept three- or six-digit hex values without committing invalid drafts; imported colors remain protected by the existing Zod schema.
 - Reducer tests cover ID preservation; factory ID generation is not duplicated in reducer coverage.
 - CTA links validate and commit on blur; invalid drafts stay local, and the preview remains non-navigating.
 - CTA link drafts reset when configuration replacement changes the selected section's canonical URL.
 - Import feedback uses an accessible status message, and successful imports clear selection through the existing reducer behavior.
+- New carousel URL drafts stay local while typing and commit in full on blur or when another image is added.
 
 ## Blockers
 

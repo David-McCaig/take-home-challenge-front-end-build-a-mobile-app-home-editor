@@ -3,11 +3,15 @@
 import "@testing-library/jest-dom/vitest"
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import { afterEach, describe, expect, it } from "vitest"
+import { afterEach, describe, expect, it, vi } from "vitest"
 
 import { EditorProvider } from "@/features/editor/context/EditorContext"
 import { EditorPage } from "@/pages/EditorPage/EditorPage"
-import type { CTASection, TextareaSection } from "@/types/section.types"
+import type { CarouselSection, CTASection, TextareaSection } from "@/types/section.types"
+
+vi.mock("embla-carousel-react", () => ({
+  default: () => [() => undefined, undefined],
+}))
 
 const createCTA = (id: string, label: string): CTASection => ({
   id,
@@ -25,6 +29,13 @@ const textareaSection: TextareaSection = {
   description: "Original description",
   titleColor: "#111111",
   descriptionColor: "#737373",
+}
+
+const carouselSection: CarouselSection = {
+  id: "carousel",
+  type: "carousel",
+  images: [{ id: "image-1", url: "https://example.com/first.jpg" }],
+  aspectRatio: "portrait",
 }
 
 afterEach(cleanup)
@@ -185,6 +196,74 @@ describe("CTA section", () => {
     expect(previewButton).toHaveStyle({ backgroundColor: "#123456", color: "#abcdef" })
     await user.click(previewButton)
     expect(window.location.href).toBe("http://localhost:3000/")
+  })
+})
+
+describe("carousel section", () => {
+  it("updates image URLs, images, and aspect ratio in the live preview", async () => {
+    const user = userEvent.setup()
+
+    render(
+      <EditorProvider initialConfig={{ version: 1, sections: [carouselSection] }}>
+        <EditorPage />
+      </EditorProvider>,
+    )
+
+    const preview = screen.getByRole("heading", { name: "Preview" }).closest("section")!
+    const imageUrl = screen.getByLabelText("Image 1 URL")
+
+    await user.clear(imageUrl)
+    await user.type(imageUrl, "not-a-url")
+    await user.tab()
+    expect(screen.getByText("Enter a valid HTTP or HTTPS URL.")).toBeInTheDocument()
+    expect(within(preview).getByAltText("Carousel item 1")).toHaveAttribute(
+      "src",
+      "https://example.com/first.jpg",
+    )
+
+    await user.clear(imageUrl)
+    await user.type(imageUrl, "https://example.com/updated.jpg")
+    expect(within(preview).getByAltText("Carousel item 1")).toHaveAttribute(
+      "src",
+      "https://example.com/first.jpg",
+    )
+    await user.tab()
+    expect(within(preview).getByAltText("Carousel item 1")).toHaveAttribute(
+      "src",
+      "https://example.com/updated.jpg",
+    )
+
+    await user.selectOptions(screen.getByLabelText("View mode"), "square")
+    expect(within(preview).getByAltText("Carousel item 1").parentElement).toHaveClass(
+      "aspect-square",
+    )
+
+    expect(within(preview).queryByText("Image unavailable")).not.toBeInTheDocument()
+    fireEvent.error(within(preview).getByAltText("Carousel item 1"))
+    expect(within(preview).getByText("Image unavailable")).toBeInTheDocument()
+    expect(within(preview).queryByAltText("Carousel item 1")).not.toBeInTheDocument()
+
+    const addImage = screen.getByRole("button", { name: "Add image" })
+    await user.click(addImage)
+    expect(screen.getByText("Images (2)")).toBeInTheDocument()
+    expect(within(preview).getAllByRole("group")).toHaveLength(1)
+    await user.click(addImage)
+    expect(screen.getByText("Images (2)")).toBeInTheDocument()
+    expect(screen.getByText("Enter a valid HTTP or HTTPS URL.")).toBeInTheDocument()
+    expect(screen.getByLabelText("Image 2 URL")).toHaveFocus()
+
+    await user.type(screen.getByLabelText("Image 2 URL"), "https://example.com/second.jpg")
+    expect(within(preview).getAllByRole("group")).toHaveLength(1)
+    await user.click(addImage)
+    expect(within(preview).getAllByRole("group")).toHaveLength(2)
+    expect(within(preview).getByAltText("Carousel item 2")).toHaveAttribute(
+      "src",
+      "https://example.com/second.jpg",
+    )
+
+    await user.click(screen.getByRole("button", { name: "Remove image 1" }))
+    await user.click(screen.getByRole("button", { name: "Remove image 1" }))
+    expect(within(preview).getByText("No images")).toBeInTheDocument()
   })
 })
 
