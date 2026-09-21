@@ -40,6 +40,7 @@ Source plan: [plan.md](./plan.md)
 - Made each widget card fully selectable and added placeholder up/down controls for Milestone 4.
 - Distinguished repeated sections by position in accessible card action names.
 - Added reducer coverage for automatic selection and ID preservation.
+- Added an RTL integration test covering repeated section creation, automatic selection, preview synchronization, and deletion.
 - Replaced nested section-label conditionals with an exhaustive typed lookup.
 - Made widget-tree labels and preview rendering exhaustive so new section types require explicit handling.
 - Added the minimal pull request format and referenced it from `AGENTS.md`.
