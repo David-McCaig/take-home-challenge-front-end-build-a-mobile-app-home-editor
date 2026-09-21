@@ -49,8 +49,9 @@ export function WidgetTreePanel() {
             No sections yet. Add one above.
           </p>
         )}
-        {state.config.sections.map((section) => {
+        {state.config.sections.map((section, index) => {
           const [name, detail] = sectionLabel(section)
+          const accessibleName = `${name} section ${index + 1}`
           const selected = state.selectedSectionId === section.id
 
           return (
@@ -62,7 +63,7 @@ export function WidgetTreePanel() {
             >
               <button
                 type="button"
-                aria-label={`Select ${name} section`}
+                aria-label={`Select ${accessibleName}`}
                 aria-pressed={selected}
                 onClick={() => dispatch({ type: "select-section", sectionId: section.id })}
                 className="absolute inset-0 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2"
@@ -74,7 +75,7 @@ export function WidgetTreePanel() {
                 </div>
                 <button
                   type="button"
-                  aria-label={`Delete ${name} section`}
+                  aria-label={`Delete ${accessibleName}`}
                   onClick={() => dispatch({ type: "remove-section", sectionId: section.id })}
                   className="pointer-events-auto ml-auto rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-2"
                 >
@@ -87,19 +88,19 @@ export function WidgetTreePanel() {
                 </span>
                 <div
                   role="group"
-                  aria-label={`Move ${name} section`}
+                  aria-label={`Move ${accessibleName}`}
                   className="pointer-events-auto flex overflow-hidden rounded-md border bg-background"
                 >
                   <button
                     type="button"
-                    aria-label={`Move ${name} section up`}
+                    aria-label={`Move ${accessibleName} up`}
                     className="flex size-7 items-center justify-center hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
                   >
                     <ChevronUp className="size-3.5" aria-hidden="true" />
                   </button>
                   <button
                     type="button"
-                    aria-label={`Move ${name} section down`}
+                    aria-label={`Move ${accessibleName} down`}
                     className="flex size-7 items-center justify-center border-l hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
                   >
                     <ChevronDown className="size-3.5" aria-hidden="true" />
