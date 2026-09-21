@@ -14,12 +14,13 @@ export function HexColorField({
   onChange: (value: string) => void
 }) {
   const id = useId()
-  const [draft, setDraft] = useState(value)
-  const isValid = hexColorPattern.test(draft)
+  const [{ draft, sourceValue }, setDraft] = useState({ draft: value, sourceValue: value })
+  const currentDraft = sourceValue === value ? draft : value
+  const isValid = hexColorPattern.test(currentDraft)
   const pickerValue = value.length === 4 ? value.replace(/([0-9a-f])/gi, "$1$1") : value
 
   function updateDraft(nextValue: string) {
-    setDraft(nextValue)
+    setDraft({ draft: nextValue, sourceValue: value })
     if (hexColorPattern.test(nextValue)) onChange(nextValue)
   }
 
@@ -41,7 +42,9 @@ export function HexColorField({
         </span>
         <Input
           id={id}
-          value={draft}
+          value={currentDraft}
+          maxLength={7}
+          spellCheck={false}
           onChange={(event) => updateDraft(event.target.value)}
           aria-invalid={!isValid}
           aria-describedby={!isValid ? `${id}-error` : undefined}
