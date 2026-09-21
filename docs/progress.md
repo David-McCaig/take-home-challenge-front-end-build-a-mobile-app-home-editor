@@ -4,9 +4,9 @@ Source plan: [plan.md](./plan.md)
 
 ## Current status
 
-- Current milestone: Milestone 4 - Reordering
+- Current milestone: Milestone 7 - CTA Section
 - Status: Complete
-- Last updated: 2026-09-20
+- Last updated: 2026-09-21
 
 ## Milestones
 
@@ -16,7 +16,7 @@ Source plan: [plan.md](./plan.md)
 - [x] Milestone 4 - Reordering
 - [ ] Milestone 5 - Carousel Section
 - [x] Milestone 6 - Textarea Section
-- [ ] Milestone 7 - CTA Section
+- [x] Milestone 7 - CTA Section
 - [ ] Milestone 8 - Import / Export
 - [ ] Milestone 9 - Quality Pass
 - [ ] Milestone 10 - Documentation & Submission
@@ -54,6 +54,10 @@ Source plan: [plan.md](./plan.md)
 - Preserved multiline descriptions and made long Textarea content wrap safely in the phone preview.
 - Added integration coverage for live Textarea text and color updates.
 - Exercised visible hex fields with realistic per-keystroke interactions in integration coverage.
+- Wired controlled CTA label, HTTP(S) link, and independent color inputs through the editor reducer.
+- Reused the shared hex color field and canonical HTTP(S) schema so invalid drafts never enter serialized editor state.
+- Rendered the CTA with the shadcn Button primitive as a non-navigating preview control.
+- Added integration coverage for CTA live-preview updates, invalid-link feedback, colors, and safe preview interaction.
 
 ## Decisions and deviations
 
@@ -68,9 +72,10 @@ Source plan: [plan.md](./plan.md)
 - Workspace panels use a three-column desktop layout and stack vertically on tablet and mobile.
 - Tablet and mobile panels size to their content, with tighter mobile spacing and a stable single-row header.
 - Editor and preview files are grouped by product surface, with section editors and section previews owned by their respective surface.
-- Carousel and CTA editing behavior remains deferred to Milestones 5 and 7.
+- Carousel editing behavior remains deferred to Milestone 5.
 - Textarea color fields accept three- or six-digit hex values without committing invalid drafts; imported colors remain protected by the existing Zod schema.
 - Reducer tests cover ID preservation; factory ID generation is not duplicated in reducer coverage.
+- CTA links commit only after passing the same HTTP(S) validation used at the import boundary; invalid drafts remain visible with inline feedback.
 
 ## Blockers
 

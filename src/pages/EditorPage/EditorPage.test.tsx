@@ -137,3 +137,42 @@ describe("textarea section", () => {
     expect(previewDescription).toHaveStyle({ color: "#abcdef" })
   })
 })
+
+describe("CTA section", () => {
+  it("updates the live preview while preserving the last valid link and colors", async () => {
+    const user = userEvent.setup()
+
+    render(
+      <EditorProvider initialConfig={{ version: 1, sections: [createCTA("cta", "Shop Now")] }}>
+        <EditorPage />
+      </EditorProvider>,
+    )
+
+    const label = screen.getByLabelText("Label")
+    const link = screen.getByLabelText("Link")
+    const buttonColor = screen.getByLabelText("Button color")
+    const labelColor = screen.getByLabelText("Label color")
+
+    await user.clear(label)
+    await user.type(label, "Browse collection")
+    await user.clear(link)
+    await user.type(link, "javascript:alert(1)")
+
+    expect(screen.getByText("Enter a valid HTTP or HTTPS URL.")).toBeInTheDocument()
+
+    await user.clear(link)
+    await user.type(link, "https://example.com/new")
+    await user.clear(buttonColor)
+    await user.type(buttonColor, "#123456")
+    await user.clear(labelColor)
+    await user.type(labelColor, "#abcdef")
+
+    const preview = screen.getByRole("heading", { name: "Preview" }).closest("section")!
+    const previewButton = within(preview).getByRole("button", { name: "Browse collection" })
+
+    expect(link).toHaveValue("https://example.com/new")
+    expect(previewButton).toHaveStyle({ backgroundColor: "#123456", color: "#abcdef" })
+    await user.click(previewButton)
+    expect(window.location.href).toBe("http://localhost:3000/")
+  })
+})
