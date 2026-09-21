@@ -39,6 +39,7 @@ Source plan: [plan.md](./plan.md)
 - Added selected-card, widget-editor prompt, and empty editor/preview states.
 - Made each widget card fully selectable and added placeholder up/down controls for Milestone 4.
 - Added reducer coverage for automatic selection and ID preservation.
+- Added the minimal pull request format and referenced it from `AGENTS.md`.
 
 ## Decisions and deviations
 

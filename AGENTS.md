@@ -12,6 +12,7 @@
 
 - For React implementation or review, read and follow `docs/react.md`.
 - For test implementation or review, read and follow `docs/testing.md`.
+- For pull requests, use `docs/pull-requests.md`.
 
 ## Architecture constraints
 
