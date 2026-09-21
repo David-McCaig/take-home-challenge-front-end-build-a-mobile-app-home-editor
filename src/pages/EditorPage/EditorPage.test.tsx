@@ -223,6 +223,10 @@ describe("carousel section", () => {
 
     await user.clear(imageUrl)
     await user.type(imageUrl, "https://example.com/updated.jpg")
+    expect(within(preview).getByAltText("Carousel item 1")).toHaveAttribute(
+      "src",
+      "https://example.com/first.jpg",
+    )
     await user.tab()
     expect(within(preview).getByAltText("Carousel item 1")).toHaveAttribute(
       "src",
@@ -239,13 +243,23 @@ describe("carousel section", () => {
     expect(within(preview).getByText("Image unavailable")).toBeInTheDocument()
     expect(within(preview).queryByAltText("Carousel item 1")).not.toBeInTheDocument()
 
-    await user.click(screen.getByRole("button", { name: "Add image" }))
+    const addImage = screen.getByRole("button", { name: "Add image" })
+    await user.click(addImage)
     expect(screen.getByText("Images (2)")).toBeInTheDocument()
     expect(within(preview).getAllByRole("group")).toHaveLength(1)
+    await user.click(addImage)
+    expect(screen.getByText("Images (2)")).toBeInTheDocument()
+    expect(screen.getByText("Enter a valid HTTP or HTTPS URL.")).toBeInTheDocument()
+    expect(screen.getByLabelText("Image 2 URL")).toHaveFocus()
 
     await user.type(screen.getByLabelText("Image 2 URL"), "https://example.com/second.jpg")
-    await user.tab()
+    expect(within(preview).getAllByRole("group")).toHaveLength(1)
+    await user.click(addImage)
     expect(within(preview).getAllByRole("group")).toHaveLength(2)
+    expect(within(preview).getByAltText("Carousel item 2")).toHaveAttribute(
+      "src",
+      "https://example.com/second.jpg",
+    )
 
     await user.click(screen.getByRole("button", { name: "Remove image 1" }))
     await user.click(screen.getByRole("button", { name: "Remove image 1" }))

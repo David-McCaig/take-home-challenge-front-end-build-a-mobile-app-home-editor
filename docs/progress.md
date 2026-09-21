@@ -65,6 +65,7 @@ Source plan: [plan.md](./plan.md)
 - Allowed long CTA labels, including unbroken text, to wrap within the phone preview.
 - Added integration coverage for CTA live-preview updates, delayed link validation, colors, and safe preview interaction.
 - Rendered carousel failure text only after an image load error so successful images have no hidden duplicate announcement.
+- Prevented multiple unfinished carousel rows; Add image now focuses and validates the existing draft instead.
 
 ## Decisions and deviations
 
@@ -83,6 +84,7 @@ Source plan: [plan.md](./plan.md)
 - Reducer tests cover ID preservation; factory ID generation is not duplicated in reducer coverage.
 - CTA links validate and commit on blur; invalid drafts stay local, and the preview remains non-navigating.
 - CTA link drafts reset when configuration replacement changes the selected section's canonical URL.
+- New carousel URL drafts stay local while typing and commit in full on blur or when another image is added.
 
 ## Blockers
 

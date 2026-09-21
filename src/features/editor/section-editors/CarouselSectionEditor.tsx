@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState, type Ref } from "react"
 import { Link, Plus, X } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
@@ -10,13 +10,25 @@ import { createId } from "@/utils/ids"
 interface ImageFieldProps {
   number: number
   url: string
+  inputRef?: Ref<HTMLInputElement>
+  validationRequested?: boolean
+  onChange?: (url: string) => void
   onCommit: (url: string) => void
   onRemove: () => void
 }
 
-function ImageField({ number, url, onCommit, onRemove }: ImageFieldProps) {
+function ImageField({
+  number,
+  url,
+  inputRef,
+  validationRequested = false,
+  onChange,
+  onCommit,
+  onRemove,
+}: ImageFieldProps) {
   const [urlDraft, setUrlDraft] = useState(url)
   const [showUrlError, setShowUrlError] = useState(false)
+  const hasUrlError = showUrlError || validationRequested
   const errorId = `carousel-image-${number}-url-error`
 
   function commitUrl() {
@@ -46,19 +58,22 @@ function ImageField({ number, url, onCommit, onRemove }: ImageFieldProps) {
         <span className="sr-only">Image {number} URL</span>
         <Link className="absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <Input
+          ref={inputRef}
           type="url"
           value={urlDraft}
           onChange={(event) => {
-            setUrlDraft(event.target.value)
+            const nextUrl = event.target.value
+            setUrlDraft(nextUrl)
             setShowUrlError(false)
+            onChange?.(nextUrl)
           }}
           onBlur={commitUrl}
-          aria-invalid={showUrlError}
-          aria-describedby={showUrlError ? errorId : undefined}
+          aria-invalid={hasUrlError}
+          aria-describedby={hasUrlError ? errorId : undefined}
           className="h-10 pl-8 text-xs"
         />
       </label>
-      {showUrlError && (
+      {hasUrlError && (
         <p id={errorId} className="mt-2 text-xs text-destructive">
           Enter a valid HTTP or HTTPS URL.
         </p>
@@ -70,6 +85,8 @@ function ImageField({ number, url, onCommit, onRemove }: ImageFieldProps) {
 export function CarouselSectionEditor({ section }: { section: CarouselSection }) {
   const { dispatch } = useEditor()
   const [pendingImages, setPendingImages] = useState<CarouselImage[]>([])
+  const [showPendingError, setShowPendingError] = useState(false)
+  const pendingInputRef = useRef<HTMLInputElement>(null)
   const images = [...section.images, ...pendingImages]
   const updateSection = (updates: Partial<CarouselSection>) =>
     dispatch({ type: "update-section", section: { ...section, ...updates } })
@@ -87,6 +104,16 @@ export function CarouselSectionEditor({ section }: { section: CarouselSection })
                 key={image.id}
                 number={index + 1}
                 url={image.url}
+                inputRef={isPending ? pendingInputRef : undefined}
+                validationRequested={isPending && showPendingError}
+                onChange={
+                  isPending
+                    ? (url) => {
+                        setShowPendingError(false)
+                        setPendingImages([{ ...image, url }])
+                      }
+                    : undefined
+                }
                 onCommit={(url) => {
                   updateSection({
                     images: isPending
@@ -96,6 +123,7 @@ export function CarouselSectionEditor({ section }: { section: CarouselSection })
                         ),
                   })
                   if (isPending) {
+                    setShowPendingError(false)
                     setPendingImages((current) =>
                       current.filter(({ id }) => id !== image.id),
                     )
@@ -103,6 +131,7 @@ export function CarouselSectionEditor({ section }: { section: CarouselSection })
                 }}
                 onRemove={() => {
                   if (isPending) {
+                    setShowPendingError(false)
                     setPendingImages((current) =>
                       current.filter(({ id }) => id !== image.id),
                     )
@@ -120,9 +149,18 @@ export function CarouselSectionEditor({ section }: { section: CarouselSection })
 
       <button
         type="button"
-        onClick={() =>
-          setPendingImages((current) => [...current, { id: createId(), url: "" }])
-        }
+        onClick={() => {
+          const pendingImage = pendingImages[0]
+          if (pendingImage && !httpUrlSchema.safeParse(pendingImage.url).success) {
+            setShowPendingError(true)
+            pendingInputRef.current?.focus()
+            return
+          }
+          if (pendingImage) {
+            updateSection({ images: [...section.images, pendingImage] })
+          }
+          setPendingImages([{ id: createId(), url: "" }])
+        }}
         className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-dashed text-xs text-muted-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         <Plus className="size-4" aria-hidden="true" />
