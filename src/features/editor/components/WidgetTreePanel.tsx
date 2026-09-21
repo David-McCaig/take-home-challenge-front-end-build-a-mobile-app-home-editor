@@ -42,7 +42,7 @@ export function WidgetTreePanel() {
             type="button"
             aria-label={accessibleLabel}
             onClick={() => dispatch({ type: "add-section", section: create() })}
-            className="flex h-[3.75rem] flex-col items-center justify-center gap-1 rounded-lg border bg-background text-xs transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="flex h-[3.75rem] cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border bg-background text-xs transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             <Plus className="size-4" aria-hidden="true" />
             {label}
@@ -73,7 +73,7 @@ export function WidgetTreePanel() {
                 aria-label={`Select ${accessibleName}`}
                 aria-pressed={selected}
                 onClick={() => dispatch({ type: "select-section", sectionId: section.id })}
-                className="absolute inset-0 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="absolute inset-0 cursor-pointer rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2"
               />
               <div className="pointer-events-none relative flex items-start gap-2">
                 <div className="min-w-0 flex-1">
@@ -84,7 +84,7 @@ export function WidgetTreePanel() {
                   type="button"
                   aria-label={`Delete ${accessibleName}`}
                   onClick={() => dispatch({ type: "remove-section", sectionId: section.id })}
-                  className="pointer-events-auto ml-auto rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-2"
+                  className="pointer-events-auto ml-auto cursor-pointer rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-2"
                 >
                   <Trash2 className="size-3.5" aria-hidden="true" />
                 </button>
@@ -105,7 +105,7 @@ export function WidgetTreePanel() {
                     onClick={() =>
                       dispatch({ type: "move-section", sectionId: section.id, direction: "up" })
                     }
-                    className="flex size-7 items-center justify-center hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex size-7 cursor-pointer items-center justify-center hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <ChevronUp className="size-3.5" aria-hidden="true" />
                   </button>
@@ -116,7 +116,7 @@ export function WidgetTreePanel() {
                     onClick={() =>
                       dispatch({ type: "move-section", sectionId: section.id, direction: "down" })
                     }
-                    className="flex size-7 items-center justify-center border-l hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex size-7 cursor-pointer items-center justify-center border-l hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <ChevronDown className="size-3.5" aria-hidden="true" />
                   </button>

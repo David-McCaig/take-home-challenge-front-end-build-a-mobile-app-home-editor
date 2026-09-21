@@ -44,7 +44,7 @@ Source plan: [plan.md](./plan.md)
 - Replaced nested section-label conditionals with an exhaustive typed lookup.
 - Made widget-tree labels and preview rendering exhaustive so new section types require explicit handling.
 - Added the minimal pull request format and referenced it from `AGENTS.md`.
-- Wired accessible native up/down controls to reorder the canonical sections array, with boundary controls disabled.
+- Wired accessible native up/down controls to reorder the canonical sections array, with pointer cues on widget-tree actions and boundary controls disabled.
 - Added integration coverage proving the widget tree and phone preview stay synchronized after reordering.
 
 ## Decisions and deviations
