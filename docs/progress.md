@@ -4,7 +4,7 @@ Source plan: [plan.md](./plan.md)
 
 ## Current status
 
-- Current milestone: Milestone 7 - CTA Section
+- Current milestone: Milestone 8 - Import / Export
 - Status: Complete
 - Last updated: 2026-09-21
 
@@ -17,7 +17,7 @@ Source plan: [plan.md](./plan.md)
 - [ ] Milestone 5 - Carousel Section
 - [x] Milestone 6 - Textarea Section
 - [x] Milestone 7 - CTA Section
-- [ ] Milestone 8 - Import / Export
+- [x] Milestone 8 - Import / Export
 - [ ] Milestone 9 - Quality Pass
 - [ ] Milestone 10 - Documentation & Submission
 
@@ -59,6 +59,10 @@ Source plan: [plan.md](./plan.md)
 - Rendered the CTA with the shadcn Button primitive as a non-navigating preview control.
 - Allowed long CTA labels, including unbroken text, to wrap within the phone preview.
 - Added integration coverage for CTA live-preview updates, delayed link validation, colors, and safe preview interaction.
+- Added formatted JSON configuration downloads and JSON file selection from the application header.
+- Validated imports through the existing strict `appConfigSchema`, with distinct malformed-JSON and invalid-configuration feedback.
+- Preserved the active configuration on failed imports and replaced editor state only after successful validation.
+- Added focused round-trip, unsupported-version, unknown-section, successful-import, and failed-import regression coverage.
 
 ## Decisions and deviations
 
@@ -78,6 +82,7 @@ Source plan: [plan.md](./plan.md)
 - Reducer tests cover ID preservation; factory ID generation is not duplicated in reducer coverage.
 - CTA links validate and commit on blur; invalid drafts stay local, and the preview remains non-navigating.
 - CTA link drafts reset when configuration replacement changes the selected section's canonical URL.
+- Import feedback uses an accessible status message, and successful imports clear selection through the existing reducer behavior.
 
 ## Blockers
 

@@ -187,3 +187,33 @@ describe("CTA section", () => {
     expect(window.location.href).toBe("http://localhost:3000/")
   })
 })
+
+describe("configuration transfer", () => {
+  it("imports valid JSON and preserves the current config after a failed import", async () => {
+    const user = userEvent.setup()
+
+    render(
+      <EditorProvider initialConfig={{ version: 1, sections: [createCTA("old", "Old")] }}>
+        <EditorPage />
+      </EditorProvider>,
+    )
+
+    const input = screen.getByLabelText("Configuration file")
+    await user.upload(
+      input,
+      new File(
+        [JSON.stringify({ version: 1, sections: [createCTA("new", "Imported")] })],
+        "config.json",
+        { type: "application/json" },
+      ),
+    )
+
+    expect(await screen.findByText("Configuration imported.")).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: "Imported" })).toBeInTheDocument()
+
+    await user.upload(input, new File(["{"], "broken.json", { type: "application/json" }))
+
+    expect(await screen.findByText("Import failed: malformed JSON.")).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: "Imported" })).toBeInTheDocument()
+  })
+})
