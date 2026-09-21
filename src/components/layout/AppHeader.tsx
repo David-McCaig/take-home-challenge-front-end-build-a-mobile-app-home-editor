@@ -1,5 +1,6 @@
-import { useRef, useState, type ChangeEvent } from "react"
+import { useRef, type ChangeEvent } from "react"
 import { Download, Upload } from "lucide-react"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { exportConfig } from "@/features/config-transfer/exportConfig"
@@ -9,7 +10,10 @@ import { useEditor } from "@/features/editor/hooks/useEditor"
 export function AppHeader() {
   const { state, dispatch } = useEditor()
   const inputRef = useRef<HTMLInputElement>(null)
-  const [feedback, setFeedback] = useState("")
+
+  function showImportError(message: string) {
+    toast.error(message, { closeButton: true, duration: Infinity })
+  }
 
   async function handleImport(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
@@ -22,12 +26,12 @@ export function AppHeader() {
     try {
       result = importConfig(await file.text())
     } catch {
-      setFeedback("Import failed: unable to read file.")
+      showImportError("Import failed: unable to read file.")
       return
     }
 
     if (!result.success) {
-      setFeedback(
+      showImportError(
         result.reason === "malformed"
           ? "Import failed: malformed JSON."
           : "Import failed: invalid configuration.",
@@ -36,7 +40,7 @@ export function AppHeader() {
     }
 
     dispatch({ type: "replace-config", config: result.config })
-    setFeedback("Configuration imported.")
+    toast.success("Configuration imported.", { duration: 4000 })
   }
 
   return (
@@ -73,17 +77,12 @@ export function AppHeader() {
           aria-label="Export configuration"
           onClick={() => {
             exportConfig(state.config)
-            setFeedback("Configuration exported.")
+            toast.success("Configuration exported.", { duration: 4000 })
           }}
         >
           <Download aria-hidden="true" />
           <span className="hidden min-[400px]:inline">Export</span>
         </Button>
-        {feedback && (
-          <p className="basis-full text-right text-xs text-muted-foreground" role="status">
-            {feedback}
-          </p>
-        )}
       </div>
     </header>
   )

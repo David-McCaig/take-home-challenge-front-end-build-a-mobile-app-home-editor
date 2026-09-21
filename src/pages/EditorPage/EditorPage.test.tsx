@@ -5,6 +5,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import userEvent from "@testing-library/user-event"
 import { afterEach, describe, expect, it, vi } from "vitest"
 
+import { Toaster } from "@/components/ui/sonner"
 import { EditorProvider } from "@/features/editor/context/EditorContext"
 import { EditorPage } from "@/pages/EditorPage/EditorPage"
 import type { CarouselSection, CTASection, TextareaSection } from "@/types/section.types"
@@ -274,6 +275,7 @@ describe("configuration transfer", () => {
     render(
       <EditorProvider initialConfig={{ version: 1, sections: [createCTA("old", "Old")] }}>
         <EditorPage />
+        <Toaster richColors />
       </EditorProvider>,
     )
 
@@ -294,5 +296,6 @@ describe("configuration transfer", () => {
 
     expect(await screen.findByText("Import failed: malformed JSON.")).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Imported" })).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: "Close toast" })).toBeInTheDocument()
   })
 })
