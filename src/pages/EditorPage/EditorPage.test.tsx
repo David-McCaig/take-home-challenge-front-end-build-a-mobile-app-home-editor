@@ -139,7 +139,7 @@ describe("textarea section", () => {
 })
 
 describe("CTA section", () => {
-  it("updates fields while keeping the preview non-navigating", async () => {
+  it("validates links and keeps the preview non-navigating", async () => {
     const user = userEvent.setup()
 
     render(
@@ -159,6 +159,18 @@ describe("CTA section", () => {
     await user.type(label, "Browse collection")
     await user.clear(link)
     await user.type(link, "javascript:alert(1)")
+
+    expect(screen.queryByText("Enter a valid HTTP or HTTPS URL.")).not.toBeInTheDocument()
+    await user.tab()
+    expect(screen.getByText("Enter a valid HTTP or HTTPS URL.")).toBeInTheDocument()
+
+    await user.click(screen.getByRole("button", { name: "Select CTA section 2" }))
+    await user.click(screen.getByRole("button", { name: "Select CTA section 1" }))
+    expect(screen.getByLabelText("Link")).toHaveValue("https://example.com")
+
+    await user.clear(screen.getByLabelText("Link"))
+    await user.type(screen.getByLabelText("Link"), "https://example.com/new")
+    await user.tab()
     await user.click(screen.getByRole("button", { name: "Select CTA section 2" }))
     await user.click(screen.getByRole("button", { name: "Select CTA section 1" }))
     await user.clear(screen.getByLabelText("Button color"))
@@ -169,7 +181,7 @@ describe("CTA section", () => {
     const preview = screen.getByRole("heading", { name: "Preview" }).closest("section")!
     const previewButton = within(preview).getByRole("button", { name: "Browse collection" })
 
-    expect(screen.getByLabelText("Link")).toHaveValue("javascript:alert(1)")
+    expect(screen.getByLabelText("Link")).toHaveValue("https://example.com/new")
     expect(previewButton).toHaveStyle({ backgroundColor: "#123456", color: "#abcdef" })
     await user.click(previewButton)
     expect(window.location.href).toBe("http://localhost:3000/")

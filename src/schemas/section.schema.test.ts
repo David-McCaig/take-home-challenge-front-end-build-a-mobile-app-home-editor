@@ -22,18 +22,16 @@ const ctaWithHref = (href: string) => ({
 describe("section URL validation", () => {
   it.each(["http://example.com", "https://example.com"])("accepts %s", (url) => {
     expect(carouselSectionSchema.safeParse(carouselWithUrl(url)).success).toBe(true)
+    expect(ctaSectionSchema.safeParse(ctaWithHref(url)).success).toBe(true)
   })
 
   it.each(["javascript:alert(1)", "data:text/html,test", "ftp://example.com"])(
-    "rejects non-HTTP carousel URL %s",
+    "rejects %s",
     (url) => {
       expect(carouselSectionSchema.safeParse(carouselWithUrl(url)).success).toBe(false)
+      expect(ctaSectionSchema.safeParse(ctaWithHref(url)).success).toBe(false)
     },
   )
-
-  it("preserves CTA link drafts", () => {
-    expect(ctaSectionSchema.safeParse(ctaWithHref("javascript:alert(1)")).success).toBe(true)
-  })
 })
 
 describe("section ID validation", () => {
