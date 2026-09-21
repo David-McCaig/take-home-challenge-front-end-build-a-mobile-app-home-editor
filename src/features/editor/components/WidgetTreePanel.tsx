@@ -101,14 +101,22 @@ export function WidgetTreePanel() {
                   <button
                     type="button"
                     aria-label={`Move ${accessibleName} up`}
-                    className="flex size-7 items-center justify-center hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
+                    disabled={index === 0}
+                    onClick={() =>
+                      dispatch({ type: "move-section", sectionId: section.id, direction: "up" })
+                    }
+                    className="flex size-7 items-center justify-center hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <ChevronUp className="size-3.5" aria-hidden="true" />
                   </button>
                   <button
                     type="button"
                     aria-label={`Move ${accessibleName} down`}
-                    className="flex size-7 items-center justify-center border-l hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
+                    disabled={index === state.config.sections.length - 1}
+                    onClick={() =>
+                      dispatch({ type: "move-section", sectionId: section.id, direction: "down" })
+                    }
+                    className="flex size-7 items-center justify-center border-l hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <ChevronDown className="size-3.5" aria-hidden="true" />
                   </button>
