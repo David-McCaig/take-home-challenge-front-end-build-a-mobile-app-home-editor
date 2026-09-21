@@ -119,12 +119,15 @@ describe("textarea section", () => {
     await user.type(title, "Updated title")
     await user.clear(description)
     await user.type(description, "First line\nSecond line")
-    fireEvent.change(titleColor, { target: { value: "invalid" } })
+    await user.clear(titleColor)
+    await user.type(titleColor, "invalid")
 
     expect(screen.getByText("Enter a 3- or 6-digit hex color.")).toBeInTheDocument()
 
-    fireEvent.change(titleColor, { target: { value: "#123456" } })
-    fireEvent.change(descriptionColor, { target: { value: "#abcdef" } })
+    await user.clear(titleColor)
+    await user.type(titleColor, "#123456")
+    await user.clear(descriptionColor)
+    await user.type(descriptionColor, "#abcdef")
 
     const preview = screen.getByRole("heading", { name: "Preview" }).closest("section")!
     const previewTitle = within(preview).getByRole("heading", { name: "Updated title" })

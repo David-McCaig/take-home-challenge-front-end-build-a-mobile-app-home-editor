@@ -53,6 +53,7 @@ Source plan: [plan.md](./plan.md)
 - Prevented invalid hex drafts from resurfacing when an external color value later reverts.
 - Preserved multiline descriptions and made long Textarea content wrap safely in the phone preview.
 - Added integration coverage for live Textarea text and color updates.
+- Exercised visible hex fields with realistic per-keystroke interactions in integration coverage.
 
 ## Decisions and deviations
 
