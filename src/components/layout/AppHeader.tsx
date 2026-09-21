@@ -78,13 +78,7 @@ export function AppHeader() {
           type="button"
           size="lg"
           aria-label="Export configuration"
-          onClick={() => {
-            exportConfig(state.config)
-            toast.success("Configuration exported", {
-              description: "Downloaded as mobile-app-config.json.",
-              duration: 4000,
-            })
-          }}
+          onClick={() => exportConfig(state.config)}
         >
           <Download aria-hidden="true" />
           <span className="hidden min-[400px]:inline">Export</span>

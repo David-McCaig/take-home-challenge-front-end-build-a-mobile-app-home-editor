@@ -89,7 +89,7 @@ Source plan: [plan.md](./plan.md)
 - CTA links validate and commit on blur; invalid drafts stay local, and the preview remains non-navigating.
 - CTA link drafts reset when configuration replacement changes the selected section's canonical URL.
 - Import feedback uses an accessible status message, and successful imports clear selection through the existing reducer behavior.
-- Import/export feedback uses shadcn Sonner toasts: errors remain dismissible until closed, while success messages dismiss automatically.
+- Import feedback uses shadcn Sonner toasts: errors remain dismissible until closed, while success messages dismiss automatically.
 - New carousel URL drafts stay local while typing and commit in full on blur or when another image is added.
 
 ## Blockers
