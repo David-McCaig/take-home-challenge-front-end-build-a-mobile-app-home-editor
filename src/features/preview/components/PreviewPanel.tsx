@@ -1,6 +1,9 @@
 import { PhonePreview } from "@/features/preview/components/PhonePreview"
+import { useEditor } from "@/features/editor/hooks/useEditor"
 
 export function PreviewPanel() {
+  const { state } = useEditor()
+
   return (
     <section className="flex h-full flex-col rounded-2xl border p-4 sm:p-7 xl:min-h-[45rem]">
       <h2 className="text-base font-semibold">Preview</h2>
@@ -8,7 +11,7 @@ export function PreviewPanel() {
         See your home screen update as you edit.
       </p>
       <div className="flex flex-1 items-start justify-center pt-7">
-        <PhonePreview />
+        <PhonePreview config={state.config} />
       </div>
     </section>
   )
