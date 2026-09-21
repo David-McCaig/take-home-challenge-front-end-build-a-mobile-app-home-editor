@@ -1,13 +1,14 @@
+import { Button } from "@/components/ui/button"
 import type { CTASection } from "@/types/section.types"
 
 export function CTASectionPreview({ section }: { section: CTASection }) {
   return (
-    <button
+    <Button
       type="button"
-      className="h-10 w-full rounded-xl text-sm focus-visible:outline-2 focus-visible:outline-offset-2"
+      className="h-auto min-h-10 w-full rounded-xl py-2"
       style={{ backgroundColor: section.buttonColor, color: section.textColor }}
     >
-      {section.label}
-    </button>
+      <span className="min-w-0 whitespace-normal [overflow-wrap:anywhere]">{section.label}</span>
+    </Button>
   )
 }
