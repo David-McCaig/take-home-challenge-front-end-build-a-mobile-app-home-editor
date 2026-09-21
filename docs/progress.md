@@ -4,7 +4,7 @@ Source plan: [plan.md](./plan.md)
 
 ## Current status
 
-- Current milestone: Milestone 3 - Section Management
+- Current milestone: Milestone 4 - Reordering
 - Status: Complete
 - Last updated: 2026-09-20
 
@@ -13,7 +13,7 @@ Source plan: [plan.md](./plan.md)
 - [x] Milestone 1 - Foundation, Architecture & AI Harness
 - [x] Milestone 2 - App Shell + Default Experience
 - [x] Milestone 3 - Section Management
-- [ ] Milestone 4 - Reordering
+- [x] Milestone 4 - Reordering
 - [ ] Milestone 5 - Carousel Section
 - [ ] Milestone 6 - Textarea Section
 - [ ] Milestone 7 - CTA Section
@@ -44,6 +44,8 @@ Source plan: [plan.md](./plan.md)
 - Replaced nested section-label conditionals with an exhaustive typed lookup.
 - Made widget-tree labels and preview rendering exhaustive so new section types require explicit handling.
 - Added the minimal pull request format and referenced it from `AGENTS.md`.
+- Wired accessible native up/down controls to reorder the canonical sections array, with pointer cues on widget-tree actions and boundary controls disabled.
+- Added integration coverage proving the widget tree and phone preview stay synchronized after reordering.
 
 ## Decisions and deviations
 
@@ -58,7 +60,7 @@ Source plan: [plan.md](./plan.md)
 - Workspace panels use a three-column desktop layout and stack vertically on tablet and mobile.
 - Tablet and mobile panels size to their content, with tighter mobile spacing and a stable single-row header.
 - Editor and preview files are grouped by product surface, with section editors and section previews owned by their respective surface.
-- Reordering controls remain deferred to Milestone 4; section-specific editing behavior remains deferred to Milestones 5–7.
+- Section-specific editing behavior remains deferred to Milestones 5–7.
 - Reducer tests cover ID preservation; factory ID generation is not duplicated in reducer coverage.
 
 ## Blockers
