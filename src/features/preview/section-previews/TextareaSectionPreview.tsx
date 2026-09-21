@@ -3,10 +3,13 @@ import type { TextareaSection } from "@/types/section.types"
 export function TextareaSectionPreview({ section }: { section: TextareaSection }) {
   return (
     <section>
-      <h3 className="text-sm font-semibold" style={{ color: section.titleColor }}>
+      <h3 className="break-words text-sm font-semibold" style={{ color: section.titleColor }}>
         {section.title}
       </h3>
-      <p className="mt-2 text-xs leading-5" style={{ color: section.descriptionColor }}>
+      <p
+        className="mt-2 whitespace-pre-wrap break-words text-xs leading-5"
+        style={{ color: section.descriptionColor }}
+      >
         {section.description}
       </p>
     </section>
