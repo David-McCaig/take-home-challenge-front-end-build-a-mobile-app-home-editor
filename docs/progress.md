@@ -57,6 +57,7 @@ Source plan: [plan.md](./plan.md)
 - Wired controlled CTA label, HTTP(S) link, and independent color inputs through the editor reducer.
 - Reused the shared hex color field and canonical HTTP(S) schema so invalid drafts never enter serialized editor state.
 - Rendered the CTA with the shadcn Button primitive as a non-navigating preview control.
+- Allowed long CTA labels, including unbroken text, to wrap within the phone preview.
 - Added integration coverage for CTA live-preview updates, delayed link validation, colors, and safe preview interaction.
 
 ## Decisions and deviations
