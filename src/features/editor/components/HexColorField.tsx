@@ -15,6 +15,9 @@ export function HexColorField({
 }) {
   const id = useId()
   const [{ draft, sourceValue }, setDraft] = useState({ draft: value, sourceValue: value })
+
+  if (sourceValue !== value) setDraft({ draft: value, sourceValue: value })
+
   const currentDraft = sourceValue === value ? draft : value
   const isValid = hexColorPattern.test(currentDraft)
   const pickerValue = value.length === 4 ? value.replace(/([0-9a-f])/gi, "$1$1") : value

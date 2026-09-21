@@ -50,6 +50,7 @@ Source plan: [plan.md](./plan.md)
 - Added clickable native-picker swatches beside visible hex color fields and kept invalid color drafts out of serialized editor state.
 - Extracted the reusable `HexColorField` into shared editor components for Textarea and future CTA use.
 - Kept hex-field drafts synchronized with externally changed color values and added regression coverage.
+- Prevented invalid hex drafts from resurfacing when an external color value later reverts.
 - Preserved multiline descriptions and made long Textarea content wrap safely in the phone preview.
 - Added integration coverage for live Textarea text and color updates.
 
