@@ -15,9 +15,16 @@ const sectionOptions = [
 ]
 
 function sectionLabel(section: Section) {
-  if (section.type === "carousel") return ["Carousel", `${section.images.length} images`]
-  if (section.type === "textarea") return ["Text", section.title || "Untitled"]
-  return ["CTA", section.label || "Unlabelled"]
+  switch (section.type) {
+    case "carousel":
+      return ["Carousel", `${section.images.length} images`]
+    case "textarea":
+      return ["Text", section.title || "Untitled"]
+    case "cta":
+      return ["CTA", section.label || "Unlabelled"]
+    default:
+      return section satisfies never
+  }
 }
 
 export function WidgetTreePanel() {

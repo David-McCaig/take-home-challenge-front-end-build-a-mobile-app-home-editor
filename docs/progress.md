@@ -41,6 +41,7 @@ Source plan: [plan.md](./plan.md)
 - Distinguished repeated sections by position in accessible card action names.
 - Added reducer coverage for automatic selection and ID preservation.
 - Replaced nested section-label conditionals with an exhaustive typed lookup.
+- Made widget-tree labels and preview rendering exhaustive so new section types require explicit handling.
 - Added the minimal pull request format and referenced it from `AGENTS.md`.
 
 ## Decisions and deviations

@@ -4,7 +4,14 @@ import { TextareaSectionPreview } from "@/features/preview/section-previews/Text
 import type { Section } from "@/types/section.types"
 
 export function SectionRenderer({ section }: { section: Section }) {
-  if (section.type === "carousel") return <CarouselSectionPreview section={section} />
-  if (section.type === "textarea") return <TextareaSectionPreview section={section} />
-  return <CTASectionPreview section={section} />
+  switch (section.type) {
+    case "carousel":
+      return <CarouselSectionPreview section={section} />
+    case "textarea":
+      return <TextareaSectionPreview section={section} />
+    case "cta":
+      return <CTASectionPreview section={section} />
+    default:
+      return section satisfies never
+  }
 }
