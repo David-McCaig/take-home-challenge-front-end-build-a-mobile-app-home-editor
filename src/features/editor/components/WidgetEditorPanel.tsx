@@ -2,6 +2,13 @@ import { CarouselSectionEditor } from "@/features/editor/section-editors/Carouse
 import { CTASectionEditor } from "@/features/editor/section-editors/CTASectionEditor"
 import { TextareaSectionEditor } from "@/features/editor/section-editors/TextareaSectionEditor"
 import { useEditor } from "@/features/editor/hooks/useEditor"
+import type { Section } from "@/types/section.types"
+
+const sectionLabels: Record<Section["type"], string> = {
+  carousel: "Carousel",
+  textarea: "Text",
+  cta: "CTA",
+}
 
 export function WidgetEditorPanel() {
   const { state } = useEditor()
@@ -16,13 +23,7 @@ export function WidgetEditorPanel() {
         </p>
       ) : (
         <div key={section.id}>
-          <h2 className="mt-1 text-xl font-semibold">
-            {section.type === "carousel"
-              ? "Carousel"
-              : section.type === "textarea"
-                ? "Text"
-                : "CTA"}
-          </h2>
+          <h2 className="mt-1 text-xl font-semibold">{sectionLabels[section.type]}</h2>
           {section.type === "carousel" && <CarouselSectionEditor section={section} />}
           {section.type === "textarea" && <TextareaSectionEditor section={section} />}
           {section.type === "cta" && <CTASectionEditor section={section} />}
