@@ -77,6 +77,7 @@ Source plan: [plan.md](./plan.md)
 - Textarea color fields accept three- or six-digit hex values without committing invalid drafts; imported colors remain protected by the existing Zod schema.
 - Reducer tests cover ID preservation; factory ID generation is not duplicated in reducer coverage.
 - CTA links validate and commit on blur; invalid drafts stay local, and the preview remains non-navigating.
+- CTA link drafts reset when configuration replacement changes the selected section's canonical URL.
 
 ## Blockers
 
