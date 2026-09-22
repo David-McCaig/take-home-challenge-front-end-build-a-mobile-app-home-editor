@@ -4,9 +4,9 @@ Source plan: [plan.md](./plan.md)
 
 ## Current status
 
-- Current milestone: Milestone 8 - Import / Export
-- Status: Complete
-- Last updated: 2026-09-21
+- Current milestone: Milestone 9 - Quality Pass
+- Status: In progress - dead scaffold cleanup complete
+- Last updated: 2026-09-22
 
 ## Milestones
 
@@ -22,6 +22,16 @@ Source plan: [plan.md](./plan.md)
 - [ ] Milestone 10 - Documentation & Submission
 
 ## Completed work
+
+- Confirmed `AddSection.tsx`, `SectionList.tsx`, `SortableSection.tsx`, and
+  `styles/globals.css` are empty and unreferenced.
+- Confirmed `App.css`, `src/assets/react.svg`, `src/assets/vite.svg`, and
+  `src/assets/hero.png` are unreferenced; retained the live favicon and deferred
+  unrelated project-specific public assets.
+- Added the dead scaffold cleanup and its verification gates to Milestone 9.
+- Removed the confirmed dead scaffold files and unused Vite starter assets without
+  adding replacement abstractions.
+- Verified the cleanup with lint, all 22 tests, and the production build.
 
 - Implemented Carousel Section image URL add/edit/remove controls and aspect-ratio selection.
 - Kept incomplete carousel URL drafts local and committed only schema-valid HTTP(S) URLs.
@@ -91,6 +101,8 @@ Source plan: [plan.md](./plan.md)
 - Import feedback uses an accessible status message, and successful imports clear selection through the existing reducer behavior.
 - Import feedback uses shadcn Sonner toasts: errors remain dismissible until closed, while success messages dismiss automatically.
 - New carousel URL drafts stay local while typing and commit in full on blur or when another image is added.
+- Kept `src/index.css` as the single active global stylesheet; Vite does not require
+  an `App.css` file.
 
 ## Blockers
 
