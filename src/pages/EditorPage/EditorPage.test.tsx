@@ -5,6 +5,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import userEvent from "@testing-library/user-event"
 import { afterEach, describe, expect, it, vi } from "vitest"
 
+import { Toaster } from "@/components/ui/sonner"
 import { EditorProvider } from "@/features/editor/context/EditorContext"
 import { EditorPage } from "@/pages/EditorPage/EditorPage"
 import type { CarouselSection, CTASection, TextareaSection } from "@/types/section.types"
@@ -264,5 +265,38 @@ describe("carousel section", () => {
     await user.click(screen.getByRole("button", { name: "Remove image 1" }))
     await user.click(screen.getByRole("button", { name: "Remove image 1" }))
     expect(within(preview).getByText("No images")).toBeInTheDocument()
+  })
+})
+
+describe("configuration transfer", () => {
+  it("imports valid JSON and preserves the current config after a failed import", async () => {
+    const user = userEvent.setup()
+
+    const { container } = render(
+      <EditorProvider initialConfig={{ version: 1, sections: [createCTA("old", "Old")] }}>
+        <EditorPage />
+        <Toaster />
+      </EditorProvider>,
+    )
+
+    const input = container.querySelector<HTMLInputElement>('input[type="file"]')!
+    await user.upload(
+      input,
+      new File(
+        [JSON.stringify({ version: 1, sections: [createCTA("new", "Imported")] })],
+        "config.json",
+        { type: "application/json" },
+      ),
+    )
+
+    expect(await screen.findByText("Configuration imported")).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: "Imported" })).toBeInTheDocument()
+
+    await user.upload(input, new File(["{"], "broken.json", { type: "application/json" }))
+
+    expect(await screen.findByText("Import failed")).toBeInTheDocument()
+    expect(screen.getByText(/malformed JSON.*not changed/)).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: "Imported" })).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: "Close toast" })).toBeInTheDocument()
   })
 })

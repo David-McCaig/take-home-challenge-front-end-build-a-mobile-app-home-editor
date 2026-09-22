@@ -49,7 +49,7 @@ function ImageField({
           type="button"
           aria-label={`Remove image ${number}`}
           onClick={onRemove}
-          className="ml-auto rounded-sm text-muted-foreground focus-visible:outline-2"
+          className="ml-auto cursor-pointer rounded-sm text-muted-foreground focus-visible:outline-2"
         >
           <X className="size-3.5" aria-hidden="true" />
         </button>
@@ -161,7 +161,7 @@ export function CarouselSectionEditor({ section }: { section: CarouselSection })
           }
           setPendingImages([{ id: createId(), url: "" }])
         }}
-        className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-dashed text-xs text-muted-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="mt-3 flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed text-xs text-muted-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         <Plus className="size-4" aria-hidden="true" />
         Add image

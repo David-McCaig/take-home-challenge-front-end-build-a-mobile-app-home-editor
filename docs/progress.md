@@ -4,7 +4,7 @@ Source plan: [plan.md](./plan.md)
 
 ## Current status
 
-- Current milestone: Milestone 7 - CTA Section
+- Current milestone: Milestone 8 - Import / Export
 - Status: Complete
 - Last updated: 2026-09-21
 
@@ -17,7 +17,7 @@ Source plan: [plan.md](./plan.md)
 - [x] Milestone 5 - Carousel Section
 - [x] Milestone 6 - Textarea Section
 - [x] Milestone 7 - CTA Section
-- [ ] Milestone 8 - Import / Export
+- [x] Milestone 8 - Import / Export
 - [ ] Milestone 9 - Quality Pass
 - [ ] Milestone 10 - Documentation & Submission
 
@@ -64,6 +64,11 @@ Source plan: [plan.md](./plan.md)
 - Rendered the CTA with the shadcn Button primitive as a non-navigating preview control.
 - Allowed long CTA labels, including unbroken text, to wrap within the phone preview.
 - Added integration coverage for CTA live-preview updates, delayed link validation, colors, and safe preview interaction.
+- Added formatted JSON configuration downloads and JSON file selection from the application header.
+- Validated imports through the existing strict `appConfigSchema`, with distinct malformed-JSON and invalid-configuration feedback.
+- Preserved the active configuration on failed imports and replaced editor state only after successful validation.
+- Added focused round-trip, unsupported-version, unknown-section, successful-import, and failed-import regression coverage.
+- Removed the programmatically opened file input from keyboard navigation so Import remains the only visible focus target.
 - Rendered carousel failure text only after an image load error so successful images have no hidden duplicate announcement.
 - Prevented multiple unfinished carousel rows; Add image now focuses and validates the existing draft instead.
 
@@ -74,7 +79,6 @@ Source plan: [plan.md](./plan.md)
 - Lightweight AI harness work moved into Milestone 1, using `AGENTS.md`, `docs/react.md`, and `docs/testing.md` instead of project-specific skills.
 - Styling guidance remains with the React rules until it is substantial enough to justify a separate document.
 - Carousel images use stable IDs plus URLs; accessibility text can be derived from editor context unless the product later requires authored alt text.
-- Import and Export are intentionally presentation-only until Milestone 8 wires configuration transfer behavior.
 - Shell controls are intentionally static; state-backed selection, section editing, preview rendering, and actions remain in their planned milestones.
 - Renamed the selected-widget surface to `WidgetEditorPanel` with a matching “Widget Editor” label.
 - Workspace panels use a three-column desktop layout and stack vertically on tablet and mobile.
@@ -84,6 +88,8 @@ Source plan: [plan.md](./plan.md)
 - Reducer tests cover ID preservation; factory ID generation is not duplicated in reducer coverage.
 - CTA links validate and commit on blur; invalid drafts stay local, and the preview remains non-navigating.
 - CTA link drafts reset when configuration replacement changes the selected section's canonical URL.
+- Import feedback uses an accessible status message, and successful imports clear selection through the existing reducer behavior.
+- Import feedback uses shadcn Sonner toasts: errors remain dismissible until closed, while success messages dismiss automatically.
 - New carousel URL drafts stay local while typing and commit in full on blur or when another image is added.
 
 ## Blockers
