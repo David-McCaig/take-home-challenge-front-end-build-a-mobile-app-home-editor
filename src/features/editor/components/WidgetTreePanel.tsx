@@ -11,7 +11,7 @@ import type { Section } from "@/types/section.types"
 const sectionOptions = [
   { label: "Carousel", accessibleLabel: "Add carousel section", create: createCarouselSection },
   { label: "Text", accessibleLabel: "Add text section", create: createTextareaSection },
-  { label: "CTA", accessibleLabel: "Add call to action section", create: createCTASection },
+  { label: "CTA", accessibleLabel: "Add CTA section", create: createCTASection },
 ]
 
 function sectionLabel(section: Section) {
@@ -84,7 +84,7 @@ export function WidgetTreePanel() {
                   type="button"
                   aria-label={`Delete ${accessibleName}`}
                   onClick={() => dispatch({ type: "remove-section", sectionId: section.id })}
-                  className="pointer-events-auto ml-auto cursor-pointer rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-2"
+                  className="pointer-events-auto ml-auto flex size-6 cursor-pointer items-center justify-center rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-2"
                 >
                   <Trash2 className="size-3.5" aria-hidden="true" />
                 </button>

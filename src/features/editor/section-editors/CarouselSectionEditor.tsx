@@ -49,7 +49,7 @@ function ImageField({
           type="button"
           aria-label={`Remove image ${number}`}
           onClick={onRemove}
-          className="ml-auto cursor-pointer rounded-sm text-muted-foreground focus-visible:outline-2"
+          className="ml-auto flex size-6 cursor-pointer items-center justify-center rounded-sm text-muted-foreground focus-visible:outline-2"
         >
           <X className="size-3.5" aria-hidden="true" />
         </button>
