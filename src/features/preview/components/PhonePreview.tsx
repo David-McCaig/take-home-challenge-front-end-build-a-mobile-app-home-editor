@@ -9,7 +9,7 @@ export function PhonePreview({ config }: { config: AppConfig }) {
         <span className="size-2 rounded-full bg-foreground" aria-hidden="true" />
       </div>
 
-      <div className="h-[calc(100%-3.25rem)] space-y-6 overflow-y-auto px-5 pt-5 pb-5">
+      <div className="h-[calc(100%-3.25rem)] space-y-6 overflow-y-auto px-5 pt-5 pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {config.sections.length === 0 ? (
           <p className="py-16 text-center text-xs text-muted-foreground">
             Add a section to start building.
