@@ -23,6 +23,8 @@ Source plan: [plan.md](./plan.md)
 
 ## Completed work
 
+- Optimized the three default Unsplash image URLs to request automatic modern formats,
+  900-pixel maximum widths, and moderate compression instead of full-resolution originals.
 - Confirmed `AddSection.tsx`, `SectionList.tsx`, `SortableSection.tsx`, and
   `styles/globals.css` are empty and unreferenced.
 - Confirmed `App.css`, `src/assets/react.svg`, `src/assets/vite.svg`, and

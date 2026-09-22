@@ -12,15 +12,15 @@ export const createCarouselSection = (): CarouselSection => ({
   images: [
     {
       id: createId(),
-      url: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d",
+      url: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=max&w=900&q=75",
     },
     {
       id: createId(),
-      url: "https://images.unsplash.com/photo-1445205170230-053b83016050",
+      url: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=max&w=900&q=75",
     },
     {
       id: createId(),
-      url: "https://images.unsplash.com/photo-1483985988355-763728e1935b",
+      url: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=max&w=900&q=75",
     },
   ],
   aspectRatio: "portrait",
