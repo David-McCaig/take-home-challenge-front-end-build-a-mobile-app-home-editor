@@ -23,6 +23,8 @@ Source plan: [plan.md](./plan.md)
 
 ## Completed work
 
+- Increased section-delete and carousel-image-remove controls to 24-pixel click targets,
+  and included the visible “CTA” text in the CTA add button's accessible name.
 - Optimized the three default Unsplash image URLs to request automatic modern formats,
   900-pixel maximum widths, and moderate compression instead of full-resolution originals.
 - Confirmed `AddSection.tsx`, `SectionList.tsx`, `SortableSection.tsx`, and

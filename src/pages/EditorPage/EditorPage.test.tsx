@@ -56,13 +56,13 @@ describe("section management", () => {
       </EditorProvider>,
     )
 
-    await user.click(screen.getByRole("button", { name: "Add call to action section" }))
+    await user.click(screen.getByRole("button", { name: "Add CTA section" }))
 
     const editor = screen.getByText("Widget Editor").closest("aside")
     expect(within(editor!).getByRole("heading", { name: "CTA" })).toBeInTheDocument()
     expect(screen.getByRole("button", { name: "Shop Now" })).toBeInTheDocument()
 
-    await user.click(screen.getByRole("button", { name: "Add call to action section" }))
+    await user.click(screen.getByRole("button", { name: "Add CTA section" }))
 
     expect(screen.getAllByRole("button", { name: "Shop Now" })).toHaveLength(2)
 
