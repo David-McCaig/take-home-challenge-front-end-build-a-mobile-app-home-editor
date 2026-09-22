@@ -7,8 +7,8 @@ export function EditorPage() {
   return (
     <div className="min-h-dvh bg-background">
       <AppHeader />
-      <main className="mx-auto flex max-w-[90rem] flex-col gap-4 p-3 sm:p-5 xl:min-h-[calc(100dvh-5rem)] xl:flex-row">
-        <div className="xl:w-[16.25rem] xl:shrink-0">
+      <main className="mx-auto flex max-w-360 flex-col gap-4 p-3 sm:p-5 xl:min-h-[calc(100dvh-5rem)] xl:flex-row">
+        <div className="xl:w-65 xl:shrink-0">
           <WidgetTreePanel />
         </div>
         <div className="xl:min-w-0 xl:flex-1">

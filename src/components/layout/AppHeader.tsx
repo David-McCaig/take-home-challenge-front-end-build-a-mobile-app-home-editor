@@ -53,7 +53,7 @@ export function AppHeader() {
 
   return (
     <header className="border-b">
-      <div className="mx-auto flex min-h-20 max-w-[90rem] items-center justify-between gap-3 px-4 py-3 sm:px-7">
+      <div className="mx-auto flex min-h-20 max-w-360 items-center justify-between gap-3 px-4 py-3 sm:px-7">
         <div className="min-w-0">
           <p className="text-[0.65rem] font-medium tracking-[0.3em] uppercase">
             Workspace

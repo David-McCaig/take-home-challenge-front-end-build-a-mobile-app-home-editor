@@ -3,7 +3,7 @@ import type { AppConfig } from "@/types/config.types"
 
 export function PhonePreview({ config }: { config: AppConfig }) {
   return (
-    <div className="h-[33.75rem] w-full max-w-72 overflow-hidden rounded-[2rem] border-4 bg-background p-2 shadow-xl">
+    <div className="h-135 w-full max-w-72 overflow-hidden rounded-[2rem] border-4 bg-background p-2 shadow-xl">
       <div className="flex items-center justify-between border-b px-5 py-4 text-xs font-medium">
         <span>Home</span>
         <span className="size-2 rounded-full bg-foreground" aria-hidden="true" />

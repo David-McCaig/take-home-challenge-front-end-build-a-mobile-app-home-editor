@@ -23,6 +23,7 @@ Source plan: [plan.md](./plan.md)
 
 ## Completed work
 
+- Replaced 11 Tailwind arbitrary spacing values with their exact canonical utilities.
 - Capped the header content and editor workspace at 90rem while preserving the
   full-width page background and header divider.
 - Increased section-delete and carousel-image-remove controls to 24-pixel click targets,
