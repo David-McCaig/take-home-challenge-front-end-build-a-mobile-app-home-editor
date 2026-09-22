@@ -8,15 +8,25 @@ import type { CTASection } from "@/types/section.types"
 
 export function CTASectionEditor({ section }: { section: CTASection }) {
   const { dispatch } = useEditor()
-  const [hrefDraft, setHrefDraft] = useState(section.href)
+  const [{ draft: hrefDraft, sourceValue }, setHrefDraft] = useState({
+    draft: section.href,
+    sourceValue: section.href,
+  })
   const [showHrefError, setShowHrefError] = useState(false)
-  const isHrefValid = httpUrlSchema.safeParse(hrefDraft).success
+
+  if (sourceValue !== section.href) {
+    setHrefDraft({ draft: section.href, sourceValue: section.href })
+    setShowHrefError(false)
+  }
+
+  const currentHrefDraft = sourceValue === section.href ? hrefDraft : section.href
+  const isHrefValid = httpUrlSchema.safeParse(currentHrefDraft).success
   const updateSection = (updates: Partial<CTASection>) =>
     dispatch({ type: "update-section", section: { ...section, ...updates } })
 
   function commitHref() {
     setShowHrefError(!isHrefValid)
-    if (isHrefValid) updateSection({ href: hrefDraft })
+    if (isHrefValid) updateSection({ href: currentHrefDraft })
   }
 
   return (
@@ -33,9 +43,9 @@ export function CTASectionEditor({ section }: { section: CTASection }) {
         Link
         <Input
           type="url"
-          value={hrefDraft}
+          value={currentHrefDraft}
           onChange={(event) => {
-            setHrefDraft(event.target.value)
+            setHrefDraft({ draft: event.target.value, sourceValue: section.href })
             setShowHrefError(false)
           }}
           onBlur={commitHref}

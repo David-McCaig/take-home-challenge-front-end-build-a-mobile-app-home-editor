@@ -188,6 +188,7 @@ describe("CTA section", () => {
     await user.clear(screen.getByLabelText("Link"))
     await user.type(screen.getByLabelText("Link"), "https://example.com/new")
     await user.tab()
+    expect(screen.getByLabelText("Choose button color")).toHaveFocus()
     await user.click(screen.getByRole("button", { name: "Select CTA section 2" }))
     await user.click(screen.getByRole("button", { name: "Select CTA section 1" }))
     await user.clear(screen.getByLabelText("Button color"))
