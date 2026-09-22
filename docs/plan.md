@@ -274,9 +274,6 @@ my-app/
 │   ├── features/
 │   │   ├── editor/
 │   │   │   ├── components/
-│   │   │   │   ├── AddSection.tsx
-│   │   │   │   ├── SectionList.tsx
-│   │   │   │   ├── SortableSection.tsx
 │   │   │   │   ├── WidgetEditorPanel.tsx
 │   │   │   │   └── WidgetTreePanel.tsx
 │   │   │   ├── section-editors/
@@ -312,7 +309,6 @@ my-app/
 │   │   ├── section.schema.ts
 │   │   └── config.schema.ts
 │   ├── utils/ids.ts
-│   ├── styles/globals.css
 │   ├── App.tsx
 │   └── main.tsx
 │
@@ -476,6 +472,11 @@ Record meaningful examples of accepted, rejected, or corrected suggestions durin
 
 ### Milestone 9 - Quality Pass
 
+- Remove confirmed unreferenced scaffold files: empty editor component placeholders,
+  `styles/globals.css`, `App.css`, and unused starter assets.
+- Do not replace deleted scaffold files with new abstractions.
+- Verify no imports or runtime references before deletion, then run lint, tests,
+  and the production build.
 - Responsive desktop/tablet/mobile review.
 - Keyboard navigation and visible focus.
 - Labels, errors, semantic HTML, and contrast.
