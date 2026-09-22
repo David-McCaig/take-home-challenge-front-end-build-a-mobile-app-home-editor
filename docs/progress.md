@@ -35,6 +35,7 @@ Source plan: [plan.md](./plan.md)
 - Removed the unused Accordion and Select component modules plus the unreferenced
   public icon sprite; retained `src/lib/utils.ts` because shadcn configuration uses it.
 - Verified the additional cleanup with lint, all 22 tests, and the production build.
+- Hid the phone preview's scrollbar chrome while preserving its scroll behavior.
 
 - Implemented Carousel Section image URL add/edit/remove controls and aspect-ratio selection.
 - Kept incomplete carousel URL drafts local and committed only schema-valid HTTP(S) URLs.
