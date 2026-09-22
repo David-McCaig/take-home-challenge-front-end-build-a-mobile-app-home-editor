@@ -79,7 +79,6 @@ Source plan: [plan.md](./plan.md)
 - Lightweight AI harness work moved into Milestone 1, using `AGENTS.md`, `docs/react.md`, and `docs/testing.md` instead of project-specific skills.
 - Styling guidance remains with the React rules until it is substantial enough to justify a separate document.
 - Carousel images use stable IDs plus URLs; accessibility text can be derived from editor context unless the product later requires authored alt text.
-- Import and Export are intentionally presentation-only until Milestone 8 wires configuration transfer behavior.
 - Shell controls are intentionally static; state-backed selection, section editing, preview rendering, and actions remain in their planned milestones.
 - Renamed the selected-widget surface to `WidgetEditorPanel` with a matching “Widget Editor” label.
 - Workspace panels use a three-column desktop layout and stack vertically on tablet and mobile.
