@@ -36,6 +36,9 @@ Source plan: [plan.md](./plan.md)
   public icon sprite; retained `src/lib/utils.ts` because shadcn configuration uses it.
 - Verified the additional cleanup with lint, all 22 tests, and the production build.
 - Hid the phone preview's scrollbar chrome while preserving its scroll behavior.
+- Prevented older, slower file imports from overwriting the latest selected configuration.
+- Added regression coverage proving the latest import wins when file reads finish out of order.
+- Preserved CTA keyboard focus when committing links while keeping local URL drafts synchronized with canonical configuration changes.
 
 - Implemented Carousel Section image URL add/edit/remove controls and aspect-ratio selection.
 - Kept incomplete carousel URL drafts local and committed only schema-valid HTTP(S) URLs.
@@ -101,7 +104,7 @@ Source plan: [plan.md](./plan.md)
 - Textarea color fields accept three- or six-digit hex values without committing invalid drafts; imported colors remain protected by the existing Zod schema.
 - Reducer tests cover ID preservation; factory ID generation is not duplicated in reducer coverage.
 - CTA links validate and commit on blur; invalid drafts stay local, and the preview remains non-navigating.
-- CTA link drafts reset when configuration replacement changes the selected section's canonical URL.
+- CTA link drafts track canonical URL changes without remounting the editor or disrupting keyboard focus.
 - Import feedback uses an accessible status message, and successful imports clear selection through the existing reducer behavior.
 - Import feedback uses shadcn Sonner toasts: errors remain dismissible until closed, while success messages dismiss automatically.
 - New carousel URL drafts stay local while typing and commit in full on blur or when another image is added.

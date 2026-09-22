@@ -26,7 +26,7 @@ export function WidgetEditorPanel() {
           <h2 className="mt-1 text-xl font-semibold">{sectionLabels[section.type]}</h2>
           {section.type === "carousel" && <CarouselSectionEditor section={section} />}
           {section.type === "textarea" && <TextareaSectionEditor section={section} />}
-          {section.type === "cta" && <CTASectionEditor key={section.href} section={section} />}
+          {section.type === "cta" && <CTASectionEditor section={section} />}
         </div>
       )}
     </aside>
