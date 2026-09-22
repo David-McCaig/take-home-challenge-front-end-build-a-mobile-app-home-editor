@@ -5,7 +5,7 @@ Source plan: [plan.md](./plan.md)
 ## Current status
 
 - Current milestone: Milestone 9 - Quality Pass
-- Status: In progress - dead scaffold cleanup complete
+- Status: In progress - workspace width cap complete
 - Last updated: 2026-09-22
 
 ## Milestones
@@ -23,6 +23,8 @@ Source plan: [plan.md](./plan.md)
 
 ## Completed work
 
+- Capped the header content and editor workspace at 90rem while preserving the
+  full-width page background and header divider.
 - Increased section-delete and carousel-image-remove controls to 24-pixel click targets,
   and included the visible “CTA” text in the CTA add button's accessible name.
 - Optimized the three default Unsplash image URLs to request automatic modern formats,
