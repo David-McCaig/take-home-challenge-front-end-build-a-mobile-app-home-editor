@@ -1,8 +1,9 @@
 // @vitest-environment jsdom
 
 import "@testing-library/jest-dom/vitest"
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react"
+import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
+import { toast } from "sonner"
 import { afterEach, describe, expect, it, vi } from "vitest"
 
 import { Toaster } from "@/components/ui/sonner"
@@ -39,7 +40,11 @@ const carouselSection: CarouselSection = {
   aspectRatio: "portrait",
 }
 
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  toast.dismiss()
+  vi.restoreAllMocks()
+})
 
 describe("section management", () => {
   it("adds, selects, previews, and deletes repeated sections", async () => {
@@ -269,6 +274,42 @@ describe("carousel section", () => {
 })
 
 describe("configuration transfer", () => {
+  it("keeps the latest import when an earlier file finishes last", async () => {
+    const user = userEvent.setup()
+    let resolveSlowImport!: (json: string) => void
+    const slowImport = new Promise<string>((resolve) => {
+      resolveSlowImport = resolve
+    })
+    const slowFile = new File([], "slow.json", { type: "application/json" })
+    const fastFile = new File([], "fast.json", { type: "application/json" })
+    vi.spyOn(slowFile, "text").mockReturnValue(slowImport)
+    vi.spyOn(fastFile, "text").mockResolvedValue(
+      JSON.stringify({ version: 1, sections: [createCTA("fast", "Fast")] }),
+    )
+
+    const { container } = render(
+      <EditorProvider initialConfig={{ version: 1, sections: [createCTA("old", "Old")] }}>
+        <EditorPage />
+        <Toaster />
+      </EditorProvider>,
+    )
+    const input = container.querySelector<HTMLInputElement>('input[type="file"]')!
+
+    await user.upload(input, slowFile)
+    await user.upload(input, fastFile)
+    expect(await screen.findByRole("button", { name: "Fast" })).toBeInTheDocument()
+
+    await act(async () => {
+      resolveSlowImport(
+        JSON.stringify({ version: 1, sections: [createCTA("slow", "Slow")] }),
+      )
+    })
+
+    expect(screen.getByRole("button", { name: "Fast" })).toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: "Slow" })).not.toBeInTheDocument()
+    expect(screen.getAllByText("Configuration imported")).toHaveLength(1)
+  })
+
   it("imports valid JSON and preserves the current config after a failed import", async () => {
     const user = userEvent.setup()
 

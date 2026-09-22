@@ -10,6 +10,7 @@ import { useEditor } from "@/features/editor/hooks/useEditor"
 export function AppHeader() {
   const { state, dispatch } = useEditor()
   const inputRef = useRef<HTMLInputElement>(null)
+  const latestImportId = useRef(0)
 
   function showImportError(description: string) {
     toast.error("Import failed", { description, closeButton: true, duration: Infinity })
@@ -21,14 +22,18 @@ export function AppHeader() {
 
     if (!file) return
 
+    const importId = ++latestImportId.current
     let result
 
     try {
       result = importConfig(await file.text())
     } catch {
+      if (importId !== latestImportId.current) return
       showImportError("The selected file could not be read. Your configuration was not changed.")
       return
     }
+
+    if (importId !== latestImportId.current) return
 
     if (!result.success) {
       showImportError(
