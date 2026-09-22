@@ -68,6 +68,7 @@ Source plan: [plan.md](./plan.md)
 - Validated imports through the existing strict `appConfigSchema`, with distinct malformed-JSON and invalid-configuration feedback.
 - Preserved the active configuration on failed imports and replaced editor state only after successful validation.
 - Added focused round-trip, unsupported-version, unknown-section, successful-import, and failed-import regression coverage.
+- Removed the programmatically opened file input from keyboard navigation so Import remains the only visible focus target.
 - Rendered carousel failure text only after an image load error so successful images have no hidden duplicate announcement.
 - Prevented multiple unfinished carousel rows; Add image now focuses and validates the existing draft instead.
 

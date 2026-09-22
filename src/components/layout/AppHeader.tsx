@@ -60,8 +60,7 @@ export function AppHeader() {
           ref={inputRef}
           type="file"
           accept="application/json,.json"
-          className="sr-only"
-          aria-label="Configuration file"
+          hidden
           onChange={handleImport}
         />
         <Button

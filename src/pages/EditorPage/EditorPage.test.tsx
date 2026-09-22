@@ -272,14 +272,14 @@ describe("configuration transfer", () => {
   it("imports valid JSON and preserves the current config after a failed import", async () => {
     const user = userEvent.setup()
 
-    render(
+    const { container } = render(
       <EditorProvider initialConfig={{ version: 1, sections: [createCTA("old", "Old")] }}>
         <EditorPage />
         <Toaster />
       </EditorProvider>,
     )
 
-    const input = screen.getByLabelText("Configuration file")
+    const input = container.querySelector<HTMLInputElement>('input[type="file"]')!
     await user.upload(
       input,
       new File(
