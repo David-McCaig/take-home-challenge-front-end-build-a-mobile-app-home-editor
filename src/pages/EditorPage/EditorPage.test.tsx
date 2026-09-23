@@ -138,8 +138,9 @@ describe("textarea section", () => {
     await user.type(description, "First line\nSecond line")
     await user.clear(titleColor)
     await user.type(titleColor, "invalid")
+    await user.tab()
 
-    expect(screen.getByText("Enter a 3- or 6-digit hex color.")).toBeInTheDocument()
+    expect(screen.getByText("Enter a hex color with 3 or 6 digits.")).toBeInTheDocument()
 
     await user.clear(titleColor)
     await user.type(titleColor, "#123456")

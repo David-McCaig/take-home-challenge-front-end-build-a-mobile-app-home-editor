@@ -49,6 +49,7 @@ export function CarouselSectionPreview({ section }: { section: CarouselSection }
             <div
               className={`relative overflow-hidden rounded-2xl bg-muted ${aspectRatioClasses[section.aspectRatio]}`}
             >
+              {/* Remount after a URL edit so a previous load failure can recover. */}
               <CarouselImagePreview key={image.url} url={image.url} index={index} />
             </div>
           </CarouselItem>

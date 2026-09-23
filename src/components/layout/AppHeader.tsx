@@ -10,6 +10,7 @@ import { useEditor } from "@/features/editor/hooks/useEditor"
 export function AppHeader() {
   const { state, dispatch } = useEditor()
   const inputRef = useRef<HTMLInputElement>(null)
+  // A slower file read must not overwrite a newer import selection.
   const latestImportId = useRef(0)
 
   function showImportError(description: string) {

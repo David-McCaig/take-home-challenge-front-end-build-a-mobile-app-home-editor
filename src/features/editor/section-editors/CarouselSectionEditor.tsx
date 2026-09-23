@@ -84,6 +84,7 @@ function ImageField({
 
 export function CarouselSectionEditor({ section }: { section: CarouselSection }) {
   const { dispatch } = useEditor()
+  // New rows stay local until their URL is valid, preserving a valid AppConfig.
   const [pendingImages, setPendingImages] = useState<CarouselImage[]>([])
   const [showPendingError, setShowPendingError] = useState(false)
   const pendingInputRef = useRef<HTMLInputElement>(null)
