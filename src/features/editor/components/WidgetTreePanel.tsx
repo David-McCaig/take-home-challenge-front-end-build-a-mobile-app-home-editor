@@ -50,7 +50,7 @@ export function WidgetTreePanel() {
         ))}
       </div>
 
-      <div className="mt-4 min-h-0 flex-1 space-y-2 overflow-y-auto pr-2">
+      <div className="mt-4 -mr-4 min-h-0 flex-1 space-y-2 overflow-y-auto pr-4">
         {state.config.sections.length === 0 && (
           <p className="rounded-xl border border-dashed p-4 text-center text-xs text-muted-foreground">
             No sections yet. Add one above.
