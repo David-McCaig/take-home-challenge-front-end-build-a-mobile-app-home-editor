@@ -23,6 +23,8 @@ Source plan: [plan.md](./plan.md)
 
 ## Completed work
 
+- Replaced the browser-controlled Carousel view-mode arrow with a consistently inset
+  decorative indicator while preserving the native select interaction.
 - Tightened the mobile Textarea description line height from 20 to 16 pixels and
   reduced its title gap from 8 to 4 pixels.
 - Replaced 11 Tailwind arbitrary spacing values with their exact canonical utilities.
