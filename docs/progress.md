@@ -23,6 +23,14 @@ Source plan: [plan.md](./plan.md)
 
 ## Completed work
 
+- Replaced the Vite starter README with project setup, commands, features, architecture,
+  assumptions, tradeoffs, technology choices, and AI usage documentation.
+- Added a concise overview of the serializable configuration, discriminated section model,
+  stable IDs, transient editor state, and runtime import validation.
+- Added the live demo and application screenshot, clarified the supported Node.js versions,
+  and removed repeated README explanations.
+- Documented the correction of an AI-generated section-label helper to use an exhaustive
+  switch so new section types produce a TypeScript error until explicitly handled.
 - Replaced the browser-controlled Carousel view-mode arrow with a consistently inset
   decorative indicator while preserving the native select interaction.
 - Tightened the mobile Textarea description line height from 20 to 16 pixels and
