@@ -1,4 +1,5 @@
 import { useId, useState } from "react"
+import { toast } from "sonner"
 
 import { Input } from "@/components/ui/input"
 
@@ -34,6 +35,15 @@ export function HexColorField({
     if (isNextValueValid) onChange(nextValue)
   }
 
+  function reportInvalidColor() {
+    setDraft((current) => ({ ...current, showError: !isValid }))
+    if (!isValid) {
+      toast.error("Invalid color not saved", {
+        description: `${label} must be a hex color with 3 or 6 digits.`,
+      })
+    }
+  }
+
   return (
     <div>
       <label htmlFor={id} className="text-xs text-muted-foreground">
@@ -57,7 +67,7 @@ export function HexColorField({
           maxLength={7}
           spellCheck={false}
           onChange={(event) => updateDraft(event.target.value)}
-          onBlur={() => setDraft((current) => ({ ...current, showError: !isValid }))}
+          onBlur={reportInvalidColor}
           aria-invalid={hasError}
           aria-describedby={hasError ? `${id}-error` : undefined}
           className="min-w-0 font-mono text-foreground"

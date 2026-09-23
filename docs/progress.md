@@ -23,6 +23,8 @@ Source plan: [plan.md](./plan.md)
 
 ## Completed work
 
+- Added a styled error toast when an invalid hex draft loses focus, so navigating to
+  another widget no longer hides the reason the color was not saved.
 - Deferred hex-color validation feedback until blur while continuing to keep invalid
   drafts out of serialized configuration, with focused regression coverage.
 - Added concise rationale comments around stale-import protection, schema-valid input
