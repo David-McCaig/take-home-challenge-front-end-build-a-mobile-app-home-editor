@@ -54,12 +54,11 @@ The version is currently the literal `1`, leaving a clear place to add migration
 
 The section model is modular: adding a new section means defining its type and schema, then providing its editor and preview components.
 
-## Key decisions and assumptions
+## Key decisions
 
-- The app is a client-only editor; persistence is provided through JSON import/export rather than a backend.
-- Native up/down buttons handle reordering. They are keyboard accessible and avoid a drag-and-drop dependency for a three-column take-home editor.
-- Embla, through the shadcn carousel component, handles carousel mechanics. shadcn primitives provide focused UI building blocks without owning application state.
-- CTA interactions are disabled in the preview so editing cannot unexpectedly navigate away.
+- **Editor and preview are separate:** Editor components update the configuration, while the mobile preview only renders it. This keeps editing logic out of the preview and makes it easier to test, reuse, or replace.
+- **Configuration and UI state are separate:** The serializable `AppConfig` contains only the data needed to rebuild the home screen. Temporary editor state, such as the selected section, stays outside it and is not included in exported JSON.
+- **State changes go through a reducer:** Editor actions are handled centrally with React Context and `useReducer`. This keeps updates predictable across the section list, controls, and preview without introducing an external state-management library.
 
 ## AI usage
 

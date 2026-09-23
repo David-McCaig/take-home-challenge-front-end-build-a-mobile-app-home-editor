@@ -112,6 +112,7 @@ Source plan: [plan.md](./plan.md)
 
 ## Decisions and deviations
 
+- Replaced generic README assumptions with the architectural decisions behind the editor/preview boundary, serializable configuration, and reducer-managed state.
 - Plan updated to v6: use accessible up/down section controls instead of dnd-kit.
 - ClickUp-specific project management removed.
 - Lightweight AI harness work moved into Milestone 1, using `AGENTS.md`, `docs/react.md`, and `docs/testing.md` instead of project-specific skills.
