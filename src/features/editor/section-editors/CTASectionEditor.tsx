@@ -32,7 +32,10 @@ export function CTASectionEditor({ section }: { section: CTASection }) {
       updateSection({ href: currentHrefDraft })
     } else {
       toast.error("Invalid link not saved", {
+        id: "invalid-editor-value",
         description: "CTA link must be a valid HTTP or HTTPS URL.",
+        closeButton: true,
+        duration: Infinity,
       })
     }
   }

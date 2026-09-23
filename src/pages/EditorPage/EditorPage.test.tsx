@@ -185,6 +185,7 @@ describe("CTA section", () => {
     await user.click(screen.getByRole("button", { name: "Select CTA section 2" }))
     expect(await screen.findByText("Invalid link not saved")).toBeInTheDocument()
     expect(screen.getByText("CTA link must be a valid HTTP or HTTPS URL.")).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: "Close toast" })).toBeInTheDocument()
 
     await user.click(screen.getByRole("button", { name: "Select CTA section 1" }))
     expect(screen.getByLabelText("Link")).toHaveValue("https://example.com")

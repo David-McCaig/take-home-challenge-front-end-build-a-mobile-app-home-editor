@@ -29,6 +29,8 @@ Source plan: [plan.md](./plan.md)
   last valid serialized URLs.
 - Replaced toast implementation spies with visible feedback assertions, including the
   original invalid-CTA-link navigation and editor-unmount scenario.
+- Kept invalid-field toasts visible until dismissal and reused one stable toast ID to
+  prevent repeated validation errors from stacking.
 - Deferred hex-color validation feedback until blur while continuing to keep invalid
   drafts out of serialized configuration, with focused regression coverage.
 - Added concise rationale comments around stale-import protection, schema-valid input

@@ -39,7 +39,10 @@ export function HexColorField({
     setDraft((current) => ({ ...current, showError: !isValid }))
     if (!isValid) {
       toast.error("Invalid color not saved", {
+        id: "invalid-editor-value",
         description: `${label} must be a hex color with 3 or 6 digits.`,
+        closeButton: true,
+        duration: Infinity,
       })
     }
   }
