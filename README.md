@@ -1,76 +1,97 @@
-# React + TypeScript + Vite
+# Mobile App Home Screen Editor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive React application for building and previewing a mobile app home screen in real time. Users can add, edit, remove, and reorder carousel, text, and call-to-action sections, then export or restore the configuration as JSON.
 
-Currently, two official plugins are available:
+[View the live demo](https://reactivchallenge.netlify.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Mobile App Home Screen Editor showing the widget tree, phone preview, and carousel editor](docs/assets/mobile-app-home-screen-editor.png)
 
-## React Compiler
+## Run locally
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Use Node.js 20.19+ or 22.12+ and npm.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+git clone https://github.com/David-McCaig/take-home-challenge-front-end-build-a-mobile-app-home-editor.git
+cd take-home-challenge-front-end-build-a-mobile-app-home-editor
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Open the local URL printed by Vite.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Available commands
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev      # start the development server
+npm test         # run the test suite once
+npm run lint     # run ESLint
+npm run build    # type-check and create a production build
+npm run preview  # serve the production build locally
 ```
-# take-home-challenge-front-end-build-a-mobile-app-home-editor
+
+## Features
+
+- Live mobile preview for every valid edit.
+- Multiple carousel, textarea, and CTA sections.
+- Accessible add, delete, and up/down reorder controls.
+- Carousel image URL management and portrait, landscape, or square layouts.
+- Editable textarea content and independent title/description colors.
+- Editable CTA label, HTTP(S) link, button color, and text color.
+- Versioned JSON import/export with runtime validation and graceful error feedback.
+- Responsive editor layout, keyboard focus states, empty states, and broken-image handling.
+
+## Approach
+
+The editor uses React Context with `useReducer` as the single source of truth. The mutable editor state contains a serializable `AppConfig` plus transient UI state such as the selected section. Editor controls dispatch actions to the reducer, which updates the canonical configuration. The preview receives that configuration through props and contains no editing logic, keeping it independent from the editor and leaving a clean seam for future persistence.
+
+Tests focus on user-visible behavior: section management and ordering, editor-to-preview updates, input validation, reducer behavior, and valid or invalid configuration transfers.
+
+## Data model
+
+`Section` is a discriminated union of `CarouselSection`, `TextareaSection`, and `CTASection`. Every section has a stable ID, as does every carousel image. `AppConfig` contains the version and ordered sections, keeping the exported JSON focused only on the data needed to rebuild the home screen.
+
+The version is currently the literal `1`, leaving a clear place to add migrations if the format changes. TypeScript types describe the data used inside the application, while separate Zod schemas validate untrusted data at runtime when importing JSON. They reject unknown fields, duplicate section or image IDs, and non-HTTP(S) URLs. The same URL rule is used by the editor and importer, preventing values such as `javascript:` links from entering the configuration.
+
+The section model is modular: adding a new section means defining its type and schema, then providing its editor and preview components.
+
+## Key decisions and assumptions
+
+- The app is a client-only editor; persistence is provided through JSON import/export rather than a backend.
+- Native up/down buttons handle reordering. They are keyboard accessible and avoid a drag-and-drop dependency for a three-column take-home editor.
+- Embla, through the shadcn carousel component, handles carousel mechanics. shadcn primitives provide focused UI building blocks without owning application state.
+- CTA interactions are disabled in the preview so editing cannot unexpectedly navigate away.
+
+## AI usage
+
+I used OpenAI Codex as a pair-programming tool for implementation suggestions, test cases, refactoring, and documentation. `AGENTS.md` provided the repository-level workflow and architecture rules, and directed Codex to the build plan and more specific React and testing guidance in `docs/` when relevant. This kept its suggestions aligned with the project rather than letting the tool make architectural decisions independently. I reviewed the generated code and accepted, revised, or rejected suggestions based on correctness, accessibility, scope, and maintainability.
+
+One example was the generated section-label helper:
+
+```ts
+function sectionLabel(section: Section) {
+  if (section.type === "carousel") return ["Carousel", `${section.images.length} images`]
+  if (section.type === "textarea") return ["Text", section.title || "Untitled"]
+  return ["CTA", section.label || "Unlabelled"]
+}
+```
+
+This worked with the three existing section types, but the final return assumed anything else must be a CTA. That could hide a bug if another section type was added later. I replaced it with an exhaustive switch, so adding a new section type without handling it here will cause a TypeScript error:
+
+```ts
+function sectionLabel(section: Section) {
+  switch (section.type) {
+    case "carousel":
+      return ["Carousel", `${section.images.length} images`]
+    case "textarea":
+      return ["Text", section.title || "Untitled"]
+    case "cta":
+      return ["CTA", section.label || "Unlabelled"]
+    default:
+      return section satisfies never
+  }
+}
+```
+
+## Technology
+
+React 19, TypeScript, Vite, Tailwind CSS, shadcn/ui, Embla Carousel, Zod, Vitest, and React Testing Library.
