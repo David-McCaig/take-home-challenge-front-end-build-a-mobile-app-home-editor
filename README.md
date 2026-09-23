@@ -40,25 +40,19 @@ npm run preview  # serve the production build locally
 - Versioned JSON import/export with runtime validation and graceful error feedback.
 - Responsive editor layout, keyboard focus states, empty states, and broken-image handling.
 
-## Approach
+## Architecture and considerations
 
-The editor uses React Context with `useReducer` as the single source of truth. The mutable editor state contains a serializable `AppConfig` plus transient UI state such as the selected section. Editor controls dispatch actions to the reducer, which updates the canonical configuration. The preview receives that configuration through props and contains no editing logic, keeping it independent from the editor and leaving a clean seam for future persistence.
+The data model has two layers. First is `AppConfig`, the serializable document. It's just a version number and an ordered list of sections. That's the thing you export as JSON and import back.
 
-Tests focus on user-visible behavior: section management and ordering, editor-to-preview updates, input validation, reducer behavior, and valid or invalid configuration transfers.
+Second is `EditorState`, the config plus `selectedSectionId`. It's transient UI state, kept separate from the document itself. When you export, the selection doesn't come along. Nothing about it belongs in the config that ships.
 
-## Data model
+Sections are a discriminated union consisting of `CarouselSection`, `TextareaSection`, and `CTASection`. Each has a type literal tag and an ID. Rendering is just a switch on type.
 
-`Section` is a discriminated union of `CarouselSection`, `TextareaSection`, and `CTASection`. Every section has a stable ID, as does every carousel image. `AppConfig` contains the version and ordered sections, keeping the exported JSON focused only on the data needed to rebuild the home screen.
+I also think of these as two product surfaces. The editor is where you compose. The phone preview simulates what a native app would render: the real customer-facing surface. `PhonePreview` receives `AppConfig` as a plain prop, with no Context. It renders imported config, default config, or any other config the same way. That separation is the whole reason the preview can stand in for a renderer I don't control.
 
-The version is currently the literal `1`, leaving a clear place to add migrations if the format changes. TypeScript types describe the data used inside the application, while separate Zod schemas validate untrusted data at runtime when importing JSON. They reject unknown fields, duplicate section or image IDs, and non-HTTP(S) URLs. The same URL rule is used by the editor and importer, preventing values such as `javascript:` links from entering the configuration.
+There's also a deliberate split between TypeScript types, which describe what my own code expects, and Zod schemas, which validate what comes from the outside world. Import goes through `safeParse`, and on failure the current config is preserved.
 
-The section model is modular: adding a new section means defining its type and schema, then providing its editor and preview components.
-
-## Key decisions
-
-- **Editor and preview are separate:** Editor components update the configuration, while the mobile preview only renders it. This keeps editing logic out of the preview and makes it easier to test, reuse, or replace.
-- **Configuration and UI state are separate:** The serializable `AppConfig` contains only the data needed to rebuild the home screen. Temporary editor state, such as the selected section, stays outside it and is not included in exported JSON.
-- **State changes go through a reducer:** Editor actions are handled centrally with React Context and `useReducer`. This keeps updates predictable across the section list, controls, and preview without introducing an external state-management library.
+Tests focus on user-visible behaviour and the boundaries most likely to fail: adding, removing, and reordering sections; propagating edits into the preview; validating inputs; reducer behaviour; and accepting or rejecting imported configurations.
 
 ## AI usage
 

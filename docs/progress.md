@@ -6,7 +6,7 @@ Source plan: [plan.md](./plan.md)
 
 - Current milestone: Milestone 9 - Quality Pass
 - Status: In progress - widget tree overflow fixed
-- Last updated: 2026-09-22
+- Last updated: 2026-09-23
 
 ## Milestones
 
@@ -23,6 +23,8 @@ Source plan: [plan.md](./plan.md)
 
 ## Completed work
 
+- Consolidated the README's overlapping approach, data-model, and key-decision sections
+  into a single Architecture and considerations explanation.
 - Replaced the Vite starter README with project setup, commands, features, architecture,
   assumptions, tradeoffs, technology choices, and AI usage documentation.
 - Added a concise overview of the serializable configuration, discriminated section model,
