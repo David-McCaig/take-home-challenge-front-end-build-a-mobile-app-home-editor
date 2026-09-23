@@ -5,7 +5,7 @@ Source plan: [plan.md](./plan.md)
 ## Current status
 
 - Current milestone: Milestone 9 - Quality Pass
-- Status: In progress - dead scaffold cleanup complete
+- Status: In progress - workspace width cap complete
 - Last updated: 2026-09-22
 
 ## Milestones
@@ -23,6 +23,11 @@ Source plan: [plan.md](./plan.md)
 
 ## Completed work
 
+- Tightened the mobile Textarea description line height from 20 to 16 pixels and
+  reduced its title gap from 8 to 4 pixels.
+- Replaced 11 Tailwind arbitrary spacing values with their exact canonical utilities.
+- Capped the header content and editor workspace at 90rem while preserving the
+  full-width page background and header divider.
 - Increased section-delete and carousel-image-remove controls to 24-pixel click targets,
   and included the visible “CTA” text in the CTA add button's accessible name.
 - Optimized the three default Unsplash image URLs to request automatic modern formats,

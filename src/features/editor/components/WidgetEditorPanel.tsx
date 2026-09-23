@@ -15,7 +15,7 @@ export function WidgetEditorPanel() {
   const section = state.config.sections.find(({ id }) => id === state.selectedSectionId)
 
   return (
-    <aside className="h-full rounded-2xl border p-4 sm:p-5 xl:min-h-[45rem]">
+    <aside className="h-full rounded-2xl border p-4 sm:p-5 xl:min-h-180">
       <p className="text-xs font-medium tracking-wide uppercase">Widget Editor</p>
       {!section ? (
         <p className="mt-4 text-sm text-muted-foreground">

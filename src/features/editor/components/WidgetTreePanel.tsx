@@ -31,7 +31,7 @@ export function WidgetTreePanel() {
   const { state, dispatch } = useEditor()
 
   return (
-    <aside className="h-full rounded-2xl border p-4 xl:min-h-[45rem]">
+    <aside className="h-full rounded-2xl border p-4 xl:min-h-180">
       <p className="text-xs font-medium tracking-wide uppercase">Widget Tree</p>
       <h2 className="mt-1 text-base font-semibold">Home screen layers</h2>
 
@@ -42,7 +42,7 @@ export function WidgetTreePanel() {
             type="button"
             aria-label={accessibleLabel}
             onClick={() => dispatch({ type: "add-section", section: create() })}
-            className="flex h-[3.75rem] cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border bg-background text-xs transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="flex h-15 cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border bg-background text-xs transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             <Plus className="size-4" aria-hidden="true" />
             {label}
@@ -64,7 +64,7 @@ export function WidgetTreePanel() {
           return (
             <article
               key={section.id}
-              className={`relative min-h-[5.75rem] rounded-xl p-3 ${
+              className={`relative min-h-23 rounded-xl p-3 ${
                 selected ? "border-2 border-foreground bg-muted/40" : "bg-muted"
               }`}
             >
@@ -105,7 +105,7 @@ export function WidgetTreePanel() {
                     onClick={() =>
                       dispatch({ type: "move-section", sectionId: section.id, direction: "up" })
                     }
-                    className="flex size-7 cursor-pointer items-center justify-center hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex size-7 cursor-pointer items-center justify-center hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:-outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <ChevronUp className="size-3.5" aria-hidden="true" />
                   </button>
@@ -116,7 +116,7 @@ export function WidgetTreePanel() {
                     onClick={() =>
                       dispatch({ type: "move-section", sectionId: section.id, direction: "down" })
                     }
-                    className="flex size-7 cursor-pointer items-center justify-center border-l hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex size-7 cursor-pointer items-center justify-center border-l hover:bg-muted hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:-outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <ChevronDown className="size-3.5" aria-hidden="true" />
                   </button>
