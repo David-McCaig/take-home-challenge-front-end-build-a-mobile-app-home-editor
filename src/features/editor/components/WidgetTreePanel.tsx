@@ -50,7 +50,7 @@ export function WidgetTreePanel() {
         ))}
       </div>
 
-      <div className="mt-4 -mr-4 min-h-0 flex-1 space-y-2 overflow-y-auto pr-4">
+      <div className="mt-4 -mr-4 min-h-0 flex-1 space-y-2 overflow-y-auto pr-4 [scrollbar-color:var(--muted-foreground)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/50 [&::-webkit-scrollbar-track]:bg-transparent">
         {state.config.sections.length === 0 && (
           <p className="rounded-xl border border-dashed p-4 text-center text-xs text-muted-foreground">
             No sections yet. Add one above.
