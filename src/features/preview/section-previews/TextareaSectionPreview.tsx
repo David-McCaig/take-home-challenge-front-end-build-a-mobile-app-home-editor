@@ -7,7 +7,7 @@ export function TextareaSectionPreview({ section }: { section: TextareaSection }
         {section.title}
       </h3>
       <p
-        className="mt-2 whitespace-pre-wrap break-words text-xs leading-4"
+        className="mt-1 whitespace-pre-wrap break-words text-xs leading-4"
         style={{ color: section.descriptionColor }}
       >
         {section.description}
