@@ -31,7 +31,7 @@ export function WidgetTreePanel() {
   const { state, dispatch } = useEditor()
 
   return (
-    <aside className="h-full rounded-2xl border p-4 xl:min-h-180">
+    <aside className="flex h-full flex-col rounded-2xl border p-4 xl:min-h-180">
       <p className="text-xs font-medium tracking-wide uppercase">Widget Tree</p>
       <h2 className="mt-1 text-base font-semibold">Home screen layers</h2>
 
@@ -50,7 +50,7 @@ export function WidgetTreePanel() {
         ))}
       </div>
 
-      <div className="mt-4 space-y-2">
+      <div className="mt-4 min-h-0 flex-1 space-y-2 overflow-y-auto pr-2">
         {state.config.sections.length === 0 && (
           <p className="rounded-xl border border-dashed p-4 text-center text-xs text-muted-foreground">
             No sections yet. Add one above.
