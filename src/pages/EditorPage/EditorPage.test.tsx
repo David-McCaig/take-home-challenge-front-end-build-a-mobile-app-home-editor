@@ -159,6 +159,7 @@ describe("textarea section", () => {
 describe("CTA section", () => {
   it("validates links and keeps the preview non-navigating", async () => {
     const user = userEvent.setup()
+    const toastError = vi.spyOn(toast, "error")
 
     render(
       <EditorProvider
@@ -181,6 +182,9 @@ describe("CTA section", () => {
     expect(screen.queryByText("Enter a valid HTTP or HTTPS URL.")).not.toBeInTheDocument()
     await user.tab()
     expect(screen.getByText("Enter a valid HTTP or HTTPS URL.")).toBeInTheDocument()
+    expect(toastError).toHaveBeenCalledWith("Invalid link not saved", {
+      description: "CTA link must be a valid HTTP or HTTPS URL.",
+    })
 
     await user.click(screen.getByRole("button", { name: "Select CTA section 2" }))
     await user.click(screen.getByRole("button", { name: "Select CTA section 1" }))
@@ -210,6 +214,7 @@ describe("CTA section", () => {
 describe("carousel section", () => {
   it("updates image URLs, images, and aspect ratio in the live preview", async () => {
     const user = userEvent.setup()
+    const toastError = vi.spyOn(toast, "error")
 
     render(
       <EditorProvider initialConfig={{ version: 1, sections: [carouselSection] }}>
@@ -224,6 +229,9 @@ describe("carousel section", () => {
     await user.type(imageUrl, "not-a-url")
     await user.tab()
     expect(screen.getByText("Enter a valid HTTP or HTTPS URL.")).toBeInTheDocument()
+    expect(toastError).toHaveBeenCalledWith("Invalid link not saved", {
+      description: "Image 1 link must be a valid HTTP or HTTPS URL.",
+    })
     expect(within(preview).getByAltText("Carousel item 1")).toHaveAttribute(
       "src",
       "https://example.com/first.jpg",

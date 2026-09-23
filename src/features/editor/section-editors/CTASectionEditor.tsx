@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { toast } from "sonner"
 
 import { Input } from "@/components/ui/input"
 import { HexColorField } from "@/features/editor/components/HexColorField"
@@ -27,7 +28,13 @@ export function CTASectionEditor({ section }: { section: CTASection }) {
 
   function commitHref() {
     setShowHrefError(!isHrefValid)
-    if (isHrefValid) updateSection({ href: currentHrefDraft })
+    if (isHrefValid) {
+      updateSection({ href: currentHrefDraft })
+    } else {
+      toast.error("Invalid link not saved", {
+        description: "CTA link must be a valid HTTP or HTTPS URL.",
+      })
+    }
   }
 
   return (

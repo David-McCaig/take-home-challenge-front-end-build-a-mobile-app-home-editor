@@ -1,5 +1,6 @@
 import { useRef, useState, type Ref } from "react"
 import { ChevronDown, Link, Plus, X } from "lucide-react"
+import { toast } from "sonner"
 
 import { Input } from "@/components/ui/input"
 import { useEditor } from "@/features/editor/hooks/useEditor"
@@ -34,7 +35,13 @@ function ImageField({
   function commitUrl() {
     const isValid = httpUrlSchema.safeParse(urlDraft).success
     setShowUrlError(!isValid)
-    if (isValid) onCommit(urlDraft)
+    if (isValid) {
+      onCommit(urlDraft)
+    } else {
+      toast.error("Invalid link not saved", {
+        description: `Image ${number} link must be a valid HTTP or HTTPS URL.`,
+      })
+    }
   }
 
   return (
