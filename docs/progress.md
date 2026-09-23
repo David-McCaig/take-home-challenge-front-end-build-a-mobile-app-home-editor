@@ -51,8 +51,6 @@ Source plan: [plan.md](./plan.md)
   so long lists keep clear separation and even card spacing on both sides.
 - Capped the Widget Tree at 60% of the dynamic viewport height below desktop widths so
   long mobile lists scroll inside the panel without pushing the rest of the editor away.
-- Styled the Widget Tree's native scrollbar so overflow remains visually discoverable
-  across Firefox and WebKit browsers without showing a track for short lists.
 - Increased section-delete and carousel-image-remove controls to 24-pixel click targets,
   and included the visible “CTA” text in the CTA add button's accessible name.
 - Optimized the three default Unsplash image URLs to request automatic modern formats,
