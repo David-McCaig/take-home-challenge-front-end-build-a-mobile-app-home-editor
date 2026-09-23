@@ -31,7 +31,7 @@ export function WidgetTreePanel() {
   const { state, dispatch } = useEditor()
 
   return (
-    <aside className="flex h-full flex-col rounded-2xl border p-4 xl:min-h-180">
+    <aside className="flex h-full max-h-[60dvh] flex-col rounded-2xl border p-4 xl:max-h-none xl:min-h-180">
       <p className="text-xs font-medium tracking-wide uppercase">Widget Tree</p>
       <h2 className="mt-1 text-base font-semibold">Home screen layers</h2>
 
