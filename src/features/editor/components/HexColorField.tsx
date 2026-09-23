@@ -14,17 +14,24 @@ export function HexColorField({
   onChange: (value: string) => void
 }) {
   const id = useId()
-  const [{ draft, sourceValue }, setDraft] = useState({ draft: value, sourceValue: value })
+  // Keep incomplete input local so only schema-valid colors reach AppConfig.
+  const [{ draft, sourceValue, showError }, setDraft] = useState({
+    draft: value,
+    sourceValue: value,
+    showError: false,
+  })
 
-  if (sourceValue !== value) setDraft({ draft: value, sourceValue: value })
+  if (sourceValue !== value) setDraft({ draft: value, sourceValue: value, showError: false })
 
   const currentDraft = sourceValue === value ? draft : value
   const isValid = hexColorPattern.test(currentDraft)
+  const hasError = showError && !isValid
   const pickerValue = value.length === 4 ? value.replace(/([0-9a-f])/gi, "$1$1") : value
 
   function updateDraft(nextValue: string) {
-    setDraft({ draft: nextValue, sourceValue: value })
-    if (hexColorPattern.test(nextValue)) onChange(nextValue)
+    const isNextValueValid = hexColorPattern.test(nextValue)
+    setDraft({ draft: nextValue, sourceValue: value, showError: showError && !isNextValueValid })
+    if (isNextValueValid) onChange(nextValue)
   }
 
   return (
@@ -35,6 +42,7 @@ export function HexColorField({
       <div className="mt-2 flex gap-2">
         <span className="relative w-10 shrink-0 overflow-hidden rounded-lg border focus-within:ring-3 focus-within:ring-ring/50">
           <span className="absolute inset-0" style={{ backgroundColor: value }} aria-hidden="true" />
+          {/* Native pickers only emit valid colors; manual validation happens in the text field. */}
           <Input
             type="color"
             value={pickerValue}
@@ -49,14 +57,15 @@ export function HexColorField({
           maxLength={7}
           spellCheck={false}
           onChange={(event) => updateDraft(event.target.value)}
-          aria-invalid={!isValid}
-          aria-describedby={!isValid ? `${id}-error` : undefined}
+          onBlur={() => setDraft((current) => ({ ...current, showError: !isValid }))}
+          aria-invalid={hasError}
+          aria-describedby={hasError ? `${id}-error` : undefined}
           className="min-w-0 font-mono text-foreground"
         />
       </div>
-      {!isValid && (
+      {hasError && (
         <p id={`${id}-error`} className="mt-1 text-xs text-destructive">
-          Enter a 3- or 6-digit hex color.
+          Enter a hex color with 3 or 6 digits.
         </p>
       )}
     </div>

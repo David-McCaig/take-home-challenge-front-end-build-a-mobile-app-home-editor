@@ -4,8 +4,8 @@ Source plan: [plan.md](./plan.md)
 
 ## Current status
 
-- Current milestone: Milestone 9 - Quality Pass
-- Status: In progress - widget tree overflow fixed
+- Current milestone: Milestone 10 - Documentation & Submission
+- Status: Complete - ready for submission
 - Last updated: 2026-09-23
 
 ## Milestones
@@ -18,11 +18,16 @@ Source plan: [plan.md](./plan.md)
 - [x] Milestone 6 - Textarea Section
 - [x] Milestone 7 - CTA Section
 - [x] Milestone 8 - Import / Export
-- [ ] Milestone 9 - Quality Pass
-- [ ] Milestone 10 - Documentation & Submission
+- [x] Milestone 9 - Quality Pass
+- [x] Milestone 10 - Documentation & Submission
 
 ## Completed work
 
+- Deferred hex-color validation feedback until blur while continuing to keep invalid
+  drafts out of serialized configuration, with focused regression coverage.
+- Added concise rationale comments around stale-import protection, schema-valid input
+  boundaries, native color-picker behavior, pending carousel rows, and image-error
+  recovery; left straightforward rendering and state transitions uncommented.
 - Consolidated the README's overlapping approach, data-model, and key-decision sections
   into a single Architecture and considerations explanation.
 - Replaced the Vite starter README with project setup, commands, features, architecture,

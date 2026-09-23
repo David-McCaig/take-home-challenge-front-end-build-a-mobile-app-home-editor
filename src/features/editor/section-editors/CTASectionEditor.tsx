@@ -8,6 +8,7 @@ import type { CTASection } from "@/types/section.types"
 
 export function CTASectionEditor({ section }: { section: CTASection }) {
   const { dispatch } = useEditor()
+  // Keep incomplete input local so only schema-valid URLs reach AppConfig.
   const [{ draft: hrefDraft, sourceValue }, setHrefDraft] = useState({
     draft: section.href,
     sourceValue: section.href,
