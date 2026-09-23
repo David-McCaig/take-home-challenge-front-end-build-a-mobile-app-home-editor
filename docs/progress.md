@@ -27,6 +27,8 @@ Source plan: [plan.md](./plan.md)
   another widget no longer hides the reason the color was not saved.
 - Added matching error toasts for invalid CTA and carousel links while preserving the
   last valid serialized URLs.
+- Replaced toast implementation spies with visible feedback assertions, including the
+  original invalid-CTA-link navigation and editor-unmount scenario.
 - Deferred hex-color validation feedback until blur while continuing to keep invalid
   drafts out of serialized configuration, with focused regression coverage.
 - Added concise rationale comments around stale-import protection, schema-valid input

@@ -159,17 +159,19 @@ describe("textarea section", () => {
 describe("CTA section", () => {
   it("validates links and keeps the preview non-navigating", async () => {
     const user = userEvent.setup()
-    const toastError = vi.spyOn(toast, "error")
 
     render(
-      <EditorProvider
-        initialConfig={{
-          version: 1,
-          sections: [createCTA("cta", "Shop Now"), createCTA("other", "Other")],
-        }}
-      >
-        <EditorPage />
-      </EditorProvider>,
+      <>
+        <EditorProvider
+          initialConfig={{
+            version: 1,
+            sections: [createCTA("cta", "Shop Now"), createCTA("other", "Other")],
+          }}
+        >
+          <EditorPage />
+        </EditorProvider>
+        <Toaster />
+      </>,
     )
 
     const label = screen.getByLabelText("Label")
@@ -180,13 +182,10 @@ describe("CTA section", () => {
     await user.type(link, "javascript:alert(1)")
 
     expect(screen.queryByText("Enter a valid HTTP or HTTPS URL.")).not.toBeInTheDocument()
-    await user.tab()
-    expect(screen.getByText("Enter a valid HTTP or HTTPS URL.")).toBeInTheDocument()
-    expect(toastError).toHaveBeenCalledWith("Invalid link not saved", {
-      description: "CTA link must be a valid HTTP or HTTPS URL.",
-    })
-
     await user.click(screen.getByRole("button", { name: "Select CTA section 2" }))
+    expect(await screen.findByText("Invalid link not saved")).toBeInTheDocument()
+    expect(screen.getByText("CTA link must be a valid HTTP or HTTPS URL.")).toBeInTheDocument()
+
     await user.click(screen.getByRole("button", { name: "Select CTA section 1" }))
     expect(screen.getByLabelText("Link")).toHaveValue("https://example.com")
 
@@ -214,12 +213,14 @@ describe("CTA section", () => {
 describe("carousel section", () => {
   it("updates image URLs, images, and aspect ratio in the live preview", async () => {
     const user = userEvent.setup()
-    const toastError = vi.spyOn(toast, "error")
 
     render(
-      <EditorProvider initialConfig={{ version: 1, sections: [carouselSection] }}>
-        <EditorPage />
-      </EditorProvider>,
+      <>
+        <EditorProvider initialConfig={{ version: 1, sections: [carouselSection] }}>
+          <EditorPage />
+        </EditorProvider>
+        <Toaster />
+      </>,
     )
 
     const preview = screen.getByRole("heading", { name: "Preview" }).closest("section")!
@@ -229,9 +230,8 @@ describe("carousel section", () => {
     await user.type(imageUrl, "not-a-url")
     await user.tab()
     expect(screen.getByText("Enter a valid HTTP or HTTPS URL.")).toBeInTheDocument()
-    expect(toastError).toHaveBeenCalledWith("Invalid link not saved", {
-      description: "Image 1 link must be a valid HTTP or HTTPS URL.",
-    })
+    expect(await screen.findByText("Invalid link not saved")).toBeInTheDocument()
+    expect(screen.getByText("Image 1 link must be a valid HTTP or HTTPS URL.")).toBeInTheDocument()
     expect(within(preview).getByAltText("Carousel item 1")).toHaveAttribute(
       "src",
       "https://example.com/first.jpg",

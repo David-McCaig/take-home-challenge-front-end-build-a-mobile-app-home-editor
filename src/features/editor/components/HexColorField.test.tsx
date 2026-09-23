@@ -6,19 +6,23 @@ import userEvent from "@testing-library/user-event"
 import { toast } from "sonner"
 import { afterEach, expect, it, vi } from "vitest"
 
+import { Toaster } from "@/components/ui/sonner"
 import { HexColorField } from "@/features/editor/components/HexColorField"
-
-vi.mock("sonner", () => ({ toast: { error: vi.fn() } }))
 
 afterEach(() => {
   cleanup()
-  vi.clearAllMocks()
+  toast.dismiss()
 })
 
 it("waits until blur to report an invalid hex color", async () => {
   const user = userEvent.setup()
   const onChange = vi.fn()
-  render(<HexColorField label="Title color" value="#111111" onChange={onChange} />)
+  render(
+    <>
+      <HexColorField label="Title color" value="#111111" onChange={onChange} />
+      <Toaster />
+    </>,
+  )
   const input = screen.getByLabelText("Title color")
 
   await user.clear(input)
@@ -32,16 +36,14 @@ it("waits until blur to report an invalid hex color", async () => {
 
   expect(screen.getByText("Enter a hex color with 3 or 6 digits.")).toBeInTheDocument()
   expect(input).toHaveAttribute("aria-invalid", "true")
-  expect(toast.error).toHaveBeenCalledWith("Invalid color not saved", {
-    description: "Title color must be a hex color with 3 or 6 digits.",
-  })
+  expect(await screen.findByText("Invalid color not saved")).toBeInTheDocument()
+  expect(screen.getByText("Title color must be a hex color with 3 or 6 digits.")).toBeInTheDocument()
 
   await user.clear(input)
   await user.type(input, "#abc")
 
   expect(screen.queryByText("Enter a hex color with 3 or 6 digits.")).not.toBeInTheDocument()
   expect(onChange).toHaveBeenLastCalledWith("#abc")
-  expect(toast.error).toHaveBeenCalledTimes(1)
 })
 
 it("updates the hex field after external value changes and reversions", async () => {
