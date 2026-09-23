@@ -47,6 +47,10 @@ Source plan: [plan.md](./plan.md)
   full-width page background and header divider.
 - Kept all three desktop panels at a shared viewport-aware height, made long widget
   lists scroll within the remaining space, and inset cards from the scrollbar.
+- Increased the widget-list scrollbar inset and moved its track into the panel gutter
+  so long lists keep clear separation and even card spacing on both sides.
+- Capped the Widget Tree at 60% of the dynamic viewport height below desktop widths so
+  long mobile lists scroll inside the panel without pushing the rest of the editor away.
 - Increased section-delete and carousel-image-remove controls to 24-pixel click targets,
   and included the visible “CTA” text in the CTA add button's accessible name.
 - Optimized the three default Unsplash image URLs to request automatic modern formats,
