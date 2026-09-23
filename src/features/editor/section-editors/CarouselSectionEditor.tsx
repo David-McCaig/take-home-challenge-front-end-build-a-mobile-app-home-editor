@@ -1,5 +1,5 @@
 import { useRef, useState, type Ref } from "react"
-import { Link, Plus, X } from "lucide-react"
+import { ChevronDown, Link, Plus, X } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
 import { useEditor } from "@/features/editor/hooks/useEditor"
@@ -169,19 +169,25 @@ export function CarouselSectionEditor({ section }: { section: CarouselSection })
 
       <label className="mt-4 block text-xs text-muted-foreground">
         View mode
-        <select
-          value={section.aspectRatio}
-          onChange={(event) =>
-            updateSection({
-              aspectRatio: event.target.value as CarouselSection["aspectRatio"],
-            })
-          }
-          className="mt-2 h-10 w-full rounded-lg border bg-background px-3 text-sm text-foreground focus-visible:outline-2 focus-visible:outline-offset-2"
-        >
-          <option value="portrait">Portrait</option>
-          <option value="landscape">Landscape</option>
-          <option value="square">Square</option>
-        </select>
+        <span className="relative mt-2 block">
+          <select
+            value={section.aspectRatio}
+            onChange={(event) =>
+              updateSection({
+                aspectRatio: event.target.value as CarouselSection["aspectRatio"],
+              })
+            }
+            className="h-10 w-full appearance-none rounded-lg border bg-background pr-9 pl-3 text-sm text-foreground focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            <option value="portrait">Portrait</option>
+            <option value="landscape">Landscape</option>
+            <option value="square">Square</option>
+          </select>
+          <ChevronDown
+            className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2"
+            aria-hidden="true"
+          />
+        </span>
       </label>
     </>
   )

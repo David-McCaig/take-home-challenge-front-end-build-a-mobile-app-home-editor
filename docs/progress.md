@@ -5,7 +5,7 @@ Source plan: [plan.md](./plan.md)
 ## Current status
 
 - Current milestone: Milestone 9 - Quality Pass
-- Status: In progress - workspace width cap complete
+- Status: In progress - widget tree overflow fixed
 - Last updated: 2026-09-22
 
 ## Milestones
@@ -23,11 +23,15 @@ Source plan: [plan.md](./plan.md)
 
 ## Completed work
 
+- Replaced the browser-controlled Carousel view-mode arrow with a consistently inset
+  decorative indicator while preserving the native select interaction.
 - Tightened the mobile Textarea description line height from 20 to 16 pixels and
   reduced its title gap from 8 to 4 pixels.
 - Replaced 11 Tailwind arbitrary spacing values with their exact canonical utilities.
 - Capped the header content and editor workspace at 90rem while preserving the
   full-width page background and header divider.
+- Kept all three desktop panels at a shared viewport-aware height, made long widget
+  lists scroll within the remaining space, and inset cards from the scrollbar.
 - Increased section-delete and carousel-image-remove controls to 24-pixel click targets,
   and included the visible “CTA” text in the CTA add button's accessible name.
 - Optimized the three default Unsplash image URLs to request automatic modern formats,
